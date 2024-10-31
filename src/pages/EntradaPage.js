@@ -7,7 +7,7 @@ function EntradaPage() {
     <div className="e ntrada-page">
       <h2>Opciones de Entradas</h2>
       <div className="event-buttons">
-        <Link to="/ver-Entradas" className="event-button">Ver Entradas</Link>
+        <Link to="/ver-Entrada" className="event-button">Ver Entradas</Link>
         <Link to="/crear-Entrada" className="event-button">Crear Entrada</Link>
         <Link to="/modificar-Entrada" className="event-button">Modificar Entrada</Link>
         <Link to="/eliminar-Entrada" className="event-button">Eliminar Entrada</Link>
