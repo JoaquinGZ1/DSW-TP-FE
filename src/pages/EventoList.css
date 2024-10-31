@@ -1,0 +1,31 @@
+
+.evento-list-container {
+  padding: 1px;
+  /* Agrega un relleno para que no esté pegado a los bordes */
+  border-left: 20px solid transparent;
+  max-width: 800px;
+  /* Opcional: Establece un ancho máximo para el contenedor */
+}
+
+h2 {
+  margin-bottom: 20px;
+  /* Espacio debajo del título */
+}
+
+ul {
+  list-style-type: none;
+  /* Opcional: quita los puntos de la lista */
+  padding: 0;
+  /* Opcional: quita el padding de la lista */
+}
+
+li {
+  margin-bottom: 15px;
+  /* Espacio entre los elementos de la lista */
+  border: 1px solid #ccc;
+  /* Opcional: agregar borde a los elementos */
+  padding: 10px;
+  /* Espacio interno en cada elemento de la lista */
+  border-radius: 5px;
+  /* Bordes redondeados */
+}

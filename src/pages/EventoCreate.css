@@ -1,0 +1,126 @@
+/* General styles for the form container */
+form {
+  max-width: 600px;
+  /* Set a maximum width for the form */
+  margin: 0 auto;
+  /* Center the form on the page */
+  padding: 20px;
+  /* Add padding around the form */
+  border-radius: 8px;
+  /* Rounded corners */
+  background-color: #f9f9f9;
+  /* Light background color */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow for depth */
+}
+
+/* Style for the headings */
+h2 {
+  text-align: center;
+  /* Center the heading */
+  color: #333;
+  /* Darker color for better readability */
+  margin-bottom: 20px;
+  /* Space below the heading */
+}
+
+/* Style for labels */
+label {
+  display: block;
+  /* Make labels block-level for better layout */
+  margin-bottom: 5px;
+  /* Space below labels */
+  font-weight: bold;
+  /* Bold text for emphasis */
+}
+
+/* Style for input fields and text areas */
+input[type="text"],
+input[type="number"],
+input[type="datetime-local"],
+textarea {
+  width: 100%;
+  /* Full width inputs */
+  padding: 10px;
+  /* Padding inside inputs */
+  margin-bottom: 15px;
+  /* Space below inputs */
+  border: 1px solid #ccc;
+  /* Light border for inputs */
+  border-radius: 4px;
+  /* Rounded corners for inputs */
+  font-size: 16px;
+  /* Larger font size */
+}
+
+textarea {
+  width: 100%;
+  /* Full width inputs */
+  max-width: 800px;
+  /* Set a maximum width for the text area */
+  height: 150px;
+  /* Increased fixed height for the text area */
+  padding: 10px;
+  /* Padding inside the text area */
+  margin-bottom: 15px;
+  /* Space below the text area */
+  border: 1px solid #ccc;
+  /* Light border for the text area */
+  border-radius: 4px;
+  /* Rounded corners for the text area */
+  font-size: 16px;
+  /* Larger font size */
+  resize: none;
+  /* Prevent manual resizing */
+}
+
+/* Style for file input */
+input[type="file"] {
+  margin-bottom: 15px;
+  /* Space below file input */
+}
+
+/* Style for buttons */
+button {
+  background-color: #007bff;
+  /* Button color */
+  color: white;
+  /* Text color for button */
+  padding: 10px 15px;
+  /* Padding inside the button */
+  border: none;
+  /* Remove border */
+  border-radius: 4px;
+  /* Rounded corners */
+  font-size: 16px;
+  /* Font size */
+  cursor: pointer;
+  /* Pointer cursor on hover */
+  transition: background-color 0.3s;
+  /* Transition for hover effect */
+}
+
+/* Button hover effect */
+button:hover {
+  background-color: #0056b3;
+  /* Darker color on hover */
+}
+
+/* Additional styling for category select */
+.categoria-select {
+  margin-bottom: 15px;
+  /* Space below category select */
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  form {
+    padding: 10px;
+    /* Reduce padding on smaller screens */
+  }
+
+  button {
+    width: 100%;
+    /* Full width buttons on small screens */
+  }
+}

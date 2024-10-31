@@ -1,0 +1,31 @@
+.eventos-page {
+  padding: 20px;
+}
+
+.event-buttons {
+  display: flex;
+  /* Cambiar a flex para que los botones estén uno al lado del otro */
+  gap: 50px;
+  /* Espacio entre botones */
+  justify-content: center;
+}
+
+.event-button {
+  padding: 20px 40px;
+  /* Tamaño más pequeño para los botones */
+  text-align: center;
+  background-color: #007BFF;
+  /* Color de fondo */
+  color: white;
+  /* Color del texto */
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  font-size: 0.9rem;
+  /* Tamaño de fuente más pequeño */
+}
+
+.event-button:hover {
+  background-color: #0056b3;
+  /* Color al pasar el mouse */
+}

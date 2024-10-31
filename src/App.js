@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import Navbar from './components/Navbar.js';
+import EventoList from './pages/EventoList.js';
+import EventoPage from './pages/EventoPage.js'; // Nueva página para botones de eventos
+import EntradaPage from './pages/EntradaPage.js'; // Nueva página para botones de entradas
+import UsuarioPage from './pages/UsuarioPage.js'; // Nueva página para botones de usuarios
+import EventoCreate from './pages/EventoCreate.js'
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <div className="main-content">
+        <Routes>
+          <Route path="/" element={<EventoList />} />
+          <Route path="/eventos" element={<EventoPage />} />
+          <Route path="/entrada" element={<EntradaPage />} />
+          <Route path="/usuario" element={<UsuarioPage />} />
+          <Route path="/EventoCreate.js" element={<EventoCreate />} />
+          {/* Agrega otras rutas si es necesario */}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
