@@ -8,7 +8,6 @@ import EntradaPage from './pages/EntradaPage.js'; // Nueva página para botones 
 import UsuarioPage from './pages/UsuarioPage.js'; // Nueva página para botones de usuarios
 import EventoCreate from './pages/EventoCreate.js'
 
-
 function App() {
   return (
     <Router>

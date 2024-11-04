@@ -1,4 +1,3 @@
-// EventoCreate.js
 import React, { useState } from 'react';
 import { createEvento } from '../api'; // Asegúrate de tener esta función en tu API
 import CategoriaSelect from '../components/CategoriaSelect'; // Asegúrate de tener este componente
@@ -10,7 +9,7 @@ const EventoCreate = () => {
   const [description, setDescription] = useState('');
   const [photo, setPhoto] = useState(null); // Para manejar imágenes
   const [date, setDate] = useState('');
-  const [categoria, setCategoria] = useState('');
+  const [categoria, setCategoria] = useState(''); // Estado para la categoría
   const [ubicacion, setUbicacion] = useState('');
   const [organizador, setOrganizador] = useState('');
 
@@ -97,7 +96,7 @@ const EventoCreate = () => {
         </div>
 
         {/* Aquí se incluye el componente de selección de categoría */}
-        <CategoriaSelect onSelect={setCategoria} />
+        <CategoriaSelect onSelect={setCategoria} /> {/* Cambié el evento aquí */}
 
         <div>
           <label>

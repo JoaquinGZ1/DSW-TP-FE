@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; // Importa Axios
+import axios from 'axios';
 
 const CategoriaSelect = ({ onSelect }) => {
   const [categorias, setCategorias] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
-        // Realiza la solicitud GET usando Axios
-        const response = await axios.get('/api/categorias'); // Asegúrate de que la URL sea correcta
-        setCategorias(response.data); // Guarda las categorías en el estado
+        const response = await axios.get('http://localhost:4000/api/categorias');
+        console.log('Datos de la API:', response.data);
+
+        // Asegúrate de que setCategorias reciba un arreglo
+        setCategorias(Array.isArray(response.data) ? response.data : response.data.data || []);
       } catch (error) {
         console.error('Error al obtener categorías:', error);
+        setError('No se pudieron cargar las categorías');
       }
     };
 
     fetchCategorias();
   }, []);
+
+  if (error) return <p>{error}</p>;
 
   return (
     <div>
@@ -25,7 +31,7 @@ const CategoriaSelect = ({ onSelect }) => {
         <option value="">Seleccione una categoría</option>
         {categorias.map((categoria) => (
           <option key={categoria.id} value={categoria.id}>
-            {categoria.name} {/* Asegúrate de que el campo 'nombre' existe en tu objeto categoría */}
+            {categoria.name} {/* Cambia "name" si tu campo es diferente */}
           </option>
         ))}
       </select>
