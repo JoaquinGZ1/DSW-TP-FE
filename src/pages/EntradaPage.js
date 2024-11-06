@@ -4,7 +4,7 @@ import './EntradaPage.css'; // Si necesitas estilos específicos para esta pági
 
 function EntradaPage() {
   return (
-    <div className="e ntrada-page">
+    <div className="entrada-page">
       <h2>Opciones de Entradas</h2>
       <div className="event-buttons">
         <Link to="/ver-Entrada" className="event-button">Ver Entradas</Link>
