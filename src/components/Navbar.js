@@ -1,22 +1,38 @@
-
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 
 function Navbar() {
+  // Obtener el rol del usuario desde localStorage
+  const role = localStorage.getItem('role');
+
   return (
     <nav className="navbar">
-            {/* Logo en la esquina superior izquierda */}
+      {/* Logo en la esquina superior izquierda */}
       <div className="navbar-logo">
-      <a  href="/">
-        <img src="/gragas.png" alt="Logo" className="logo" style={{ width: '128px', height: '128px' }} /> {/* Cambia el path a tu logo */}
-      </a>
+        <a href="/">
+          <img src="/gragas.png" alt="Logo" className="logo" style={{ width: '128px', height: '128px' }} />
+        </a>
       </div>
+
       <div className="navbar-buttons">
-        <Link to="/eventos" className="navbar-button">Evento</Link>
-        <Link to="/entrada" className="navbar-button">Entrada</Link>
-        <Link to="/usuario" className="navbar-button">Usuario</Link>
+        {/* Botón para Eventos siempre visible */}
+        <Link to="/eventos" className="navbar-button">Eventos</Link>
+
+        {/* Si el rol es 'usuario', mostrar 'Entradas' y 'Perfil' */}
+        {role === 'usuario' && (
+          <>
+            <Link to="/entrada" className="navbar-button">Entradas</Link>
+            <Link to="/usuario" className="navbar-button">Perfil</Link>
+          </>
+        )}
+
+        {/* Si el rol es 'organizador', mostrar solo 'Eventos' y 'Perfil' */}
+        {role === 'organizador' && (
+          <>
+            <Link to="/usuario" className="navbar-button">Perfil</Link>
+          </>
+        )}
       </div>
     </nav>
   );

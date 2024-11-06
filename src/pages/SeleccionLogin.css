@@ -1,0 +1,81 @@
+/* SeleccionLogin.css */
+
+/* Contenedor principal */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f4f4f9;
+    text-align: center;
+}
+
+/* Título */
+.title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Contenedor de los botones */
+.buttons-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Estilos generales para los botones */
+.login-button {
+    padding: 12px 30px;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para el botón de usuario */
+.usuario {
+    background-color: #4caf50;
+    /* Verde */
+    color: white;
+}
+
+.usuario:hover {
+    background-color: #45a049;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para el botón de organizador */
+.organizador {
+    background-color: #2196f3;
+    /* Azul */
+    color: white;
+}
+
+.organizador:hover {
+    background-color: #1976d2;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Añadir animación de entrada */
+.login-container {
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Animación de aparición */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
