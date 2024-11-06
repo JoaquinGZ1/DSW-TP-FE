@@ -11,8 +11,11 @@ const CategoriaSelect = ({ onSelect }) => {
         const response = await axios.get('http://localhost:4000/api/categorias');
         console.log('Datos de la API:', response.data);
 
-        // Asegúrate de que setCategorias reciba un arreglo
-        setCategorias(Array.isArray(response.data) ? response.data : response.data.data || []);
+        // Ordena las categorías alfabéticamente por nombre antes de guardarlas en el estado
+        const sortedCategorias = (Array.isArray(response.data) ? response.data : response.data.data || [])
+          .sort((a, b) => a.name.localeCompare(b.name));
+
+        setCategorias(sortedCategorias);
       } catch (error) {
         console.error('Error al obtener categorías:', error);
         setError('No se pudieron cargar las categorías');

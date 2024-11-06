@@ -1,12 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
 import Navbar from './components/Navbar.js';
 import EventoList from './pages/EventoList.js';
-import EventoPage from './pages/EventoPage.js'; // Nueva página para botones de eventos
-import EntradaPage from './pages/EntradaPage.js'; // Nueva página para botones de entradas
-import UsuarioPage from './pages/UsuarioPage.js'; // Nueva página para botones de usuarios
-import EventoCreate from './pages/EventoCreate.js'
+import EventoPage from './pages/EventoPage.js';
+import EntradaPage from './pages/EntradaPage.js';
+import UsuarioPage from './pages/UsuarioPage.js';
+import EventoCreate from './pages/EventoCreate.js';
+import PrivateRoute from './components/PrivateRoute';
+import Login from './pages/login';
+import RegisterPage from './pages/RegisterPage';  // Importa RegisterPage
 
 function App() {
   return (
@@ -14,12 +16,52 @@ function App() {
       <Navbar />
       <div className="main-content">
         <Routes>
-          <Route path="/" element={<EventoList />} />
-          <Route path="/eventos" element={<EventoPage />} />
-          <Route path="/entrada" element={<EntradaPage />} />
-          <Route path="/usuario" element={<UsuarioPage />} />
-          <Route path="/EventoCreate.js" element={<EventoCreate />} />
-          {/* Agrega otras rutas si es necesario */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<RegisterPage />} /> {/* Ruta para el registro */}
+
+          {/* Rutas protegidas para organizadores */}
+          <Route
+            path="/eventos/crear"
+            element={
+              <PrivateRoute requiredRole="organizador">
+                <EventoCreate />
+              </PrivateRoute>
+            }
+          />
+
+          {/* Rutas accesibles para ambos roles */}
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <EventoList />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/eventos"
+            element={
+              <PrivateRoute>
+                <EventoPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/entrada"
+            element={
+              <PrivateRoute>
+                <EntradaPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/usuario"
+            element={
+              <PrivateRoute>
+                <UsuarioPage />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </div>
     </Router>
