@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-function LoginUsuario() {
-  const [mail, setMail] = useState(''); // Solo necesitamos mail
+function LoginUsuario({ setIsAuthenticated }) { // Recibe setIsAuthenticated como prop
+  const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const navigate = useNavigate(); // Hook para redirigir
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,11 +19,14 @@ function LoginUsuario() {
         password,
       });
 
-      localStorage.setItem('role', 'usuario'); // Guardar el rol
-      localStorage.setItem('Token', response.data.token); // Guardar el token en localStorage
-      localStorage.setItem('user', JSON.stringify(response.data.usuario)); // Guardar los datos del usuario en localStorage 
-      setSuccess(`Login exitoso. Bienvenido, ${response.data.usuario.nickname}`);
+      // Guardar el token y datos en localStorage
+      localStorage.setItem('role', 'usuario');
+      localStorage.setItem('Token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.usuario));
 
+      // Actualiza el estado de autenticación y redirige
+      setIsAuthenticated(true); // <- Esto es clave para que App sepa que estamos autenticados
+      setSuccess(`Login exitoso. Bienvenido, ${response.data.usuario.nickname}`);
       setTimeout(() => {
         navigate('/'); // Ajusta esta ruta si es necesario
       }, 2000); // Redirige después de 2 segundos
@@ -33,7 +36,7 @@ function LoginUsuario() {
   };
 
   const handleRegisterRedirect = () => {
-    navigate('/register'); // Redirige a la página de registro
+    navigate('/registerUsuario');
   };
 
   return (
@@ -64,7 +67,7 @@ function LoginUsuario() {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {success && <p style={{ color: 'green' }}>{success}</p>}
 
-      <button onClick={handleRegisterRedirect}>Registrarse</button> {/* Botón para redirigir */}
+      <button onClick={handleRegisterRedirect}>Registrarse</button>
     </div>
   );
 }

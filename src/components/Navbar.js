@@ -10,14 +10,14 @@ function Navbar() {
     <nav className="navbar">
       {/* Logo en la esquina superior izquierda */}
       <div className="navbar-logo">
-        <a href="/">
+        <Link to="/"> {/* Cambiar <a href="/"> a <Link to="/"> */}
           <img src="/gragas.png" alt="Logo" className="logo" style={{ width: '128px', height: '128px' }} />
-        </a>
+        </Link>
       </div>
 
       <div className="navbar-buttons">
         {/* Botón para Eventos siempre visible */}
-        <Link to="/eventos" className="navbar-button">Eventos</Link>
+        <Link to="/" className="navbar-button">Eventos</Link>
 
         {/* Si el rol es 'usuario', mostrar 'Entradas' y 'Perfil' */}
         {role === 'usuario' && (

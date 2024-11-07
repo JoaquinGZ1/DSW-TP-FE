@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Asegúrate de importar axios
-import './ModificarUsuarioPage.css';
 
 function ModificarUsuarioPage() {
   const [user, setUser] = useState(null);
@@ -16,7 +15,7 @@ function ModificarUsuarioPage() {
       setUser(userData);
       setNickname(userData.nickname);
       setMail(userData.mail);
-      setDNI(userData.DNI);
+      setDNI(userData.DNI);  // Asegúrate de que 'DNI' esté disponible
       setDescription(userData.description);
     }
   }, []);
@@ -25,14 +24,19 @@ function ModificarUsuarioPage() {
     e.preventDefault();
 
     try {
-      // Aquí llamas a la API para actualizar los datos del usuario
-      const response = await axios.put('http://localhost:4000/api/usuarios/update', {
-        nickname,
-        mail,
-        DNI,
-        description,
-      });
-
+      // Aquí realizamos la llamada a la API para actualizar los datos del usuario
+      const response = await axios.put(`http://localhost:4000/api/usuarios/update/${DNI}`, {
+  nickname,
+  mail,
+  DNI,
+  description,
+},
+{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('Token')}`, // Token en el header
+        },
+ }
+    );
       // Si la actualización fue exitosa, actualizamos el localStorage
       localStorage.setItem('user', JSON.stringify(response.data));
 

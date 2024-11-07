@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './UsuarioPage.css';
+import {  useNavigate } from 'react-router-dom'
 
 function UsuarioPage() {
   const [user, setUser] = useState(null); // Estado para guardar el usuario logueado
+  const navigate = useNavigate(); // Usar el hook useNavigate
 
   useEffect(() => {
     // Obtener la información del usuario logueado del localStorage
@@ -15,7 +17,7 @@ function UsuarioPage() {
   const handleEditProfile = () => {
     // Redirigir a la página de edición de usuario
     // Asegúrate de que tienes la ruta configurada correctamente para editar el perfil
-    window.location.href = "/modificar-Usuario";
+    navigate('/modificar-Usuario');
   };
 
   const handleLogout = () => {
@@ -25,7 +27,7 @@ function UsuarioPage() {
     localStorage.removeItem('role'); // Opcional, si también deseas eliminar el rol
 
     // Redirigir al login o página de selección de login
-    window.location.href = "/seleccion-login";
+    navigate("/seleccion-login");
   };
 
   if (!user) {
