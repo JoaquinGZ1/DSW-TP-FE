@@ -12,6 +12,8 @@ import RegisterUsuario from './pages/RegisterUsuario.js';
 import SeleccionLogin from './pages/SeleccionLogin.js';
 import ModificarUsuarioPage from './pages/ModificarUsuarioPage.js';
 import RegisterOrganizador from './pages/RegisterOrganizador.js'
+import OrganizadorPage from './pages/OrganizadorPage.js'
+import ModificarOrganizadorPage from './pages/ModificarOrganizadorPage.js'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -40,6 +42,8 @@ function App() {
               <Route path="/usuario" element={<UsuarioPage />} />
               <Route path="/EventoCreate" element={<EventoCreate />} />
               <Route path="/modificar-Usuario" element={<ModificarUsuarioPage />} />
+              <Route path="/organizador" element={<OrganizadorPage/>} />
+              <Route path="/modificar-organizador" element={<ModificarOrganizadorPage />} />
             </>
           ) : (
             // Si no está autenticado, redirige a la página de selección de login

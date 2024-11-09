@@ -17,20 +17,24 @@ function Navbar() {
 
       <div className="navbar-buttons">
         {/* Botón para Eventos siempre visible */}
-        <Link to="/" className="navbar-button">Eventos</Link>
+        
 
         {/* Si el rol es 'usuario', mostrar 'Entradas' y 'Perfil' */}
         {role === 'usuario' && (
           <>
-            <Link to="/entrada" className="navbar-button">Entradas</Link>
+            <Link to="/" className="navbar-button">Eventos</Link>
+            <Link to="/entrada" className="navbar-button">Entradas</Link> {/* HACER */}
             <Link to="/usuario" className="navbar-button">Perfil</Link>
+            <Link to="/categorias" className="navbar-button">Categorias</Link> {/* HACER */}
+            
           </>
         )}
 
         {/* Si el rol es 'organizador', mostrar solo 'Eventos' y 'Perfil' */}
         {role === 'organizador' && (
           <>
-            <Link to="/usuario" className="navbar-button">Perfil</Link>
+            <Link to="/EventosOrganizador" className="navbar-button">Mis Eventos</Link> {/* HACER */}
+            <Link to="/organizador" className="navbar-button">Perfil</Link>
           </>
         )}
       </div>
