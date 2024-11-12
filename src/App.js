@@ -14,6 +14,7 @@ import ModificarUsuarioPage from './pages/ModificarUsuarioPage.js';
 import RegisterOrganizador from './pages/RegisterOrganizador.js'
 import OrganizadorPage from './pages/OrganizadorPage.js'
 import ModificarOrganizadorPage from './pages/ModificarOrganizadorPage.js'
+import NavbarLogin from './components/NavbarLogin.js'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -30,10 +31,11 @@ function App() {
 
   return (
     <Router>
-      <Navbar />
+      {isAuthenticated ? <Navbar /> : <NavbarLogin />}
       <div className="main-content">
         <Routes>
           {/* Si está autenticado, muestra las rutas principales */}
+          
           {isAuthenticated ? (
             <>
               <Route path="/" element={<EventoList />} />
@@ -49,8 +51,9 @@ function App() {
             // Si no está autenticado, redirige a la página de selección de login
             <Route path="*" element={<Navigate to="/seleccion-login" replace />} />
           )}
-
+        
           {/* Rutas para login */}
+          
           <Route path="/seleccion-login" element={<SeleccionLogin />} />
           <Route path="/login-usuario" element={<LoginUsuario setIsAuthenticated={setIsAuthenticated} />} />
           <Route path="/login-organizador" element={<LoginOrganizador  setIsAuthenticated={setIsAuthenticated} />} />
