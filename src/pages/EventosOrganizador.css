@@ -1,0 +1,80 @@
+/* Contenedor principal de los eventos */
+.eventos-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    /* Centra el contenedor */
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Título principal */
+h1 {
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Lista de eventos */
+.eventos-list {
+    list-style: none;
+    padding: 0;
+}
+
+/* Cada evento */
+.evento-item {
+    background-color: #fff;
+    margin: 15px 0;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Estilo al pasar el mouse sobre un evento */
+.evento-item:hover {
+    transform: translateY(-5px);
+    /* Efecto de elevación */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Título del evento */
+.evento-item h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+/* Descripción del evento */
+.evento-item p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+/* Fecha del evento */
+.evento-item .fecha {
+    font-size: 1rem;
+    color: #777;
+    font-style: italic;
+}
+
+/* Estilos de carga */
+.cargando {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #007bff;
+    padding: 50px 0;
+}
+
+/* Mensaje cuando no hay eventos */
+.no-eventos {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #888;
+    padding: 50px 0;
+}

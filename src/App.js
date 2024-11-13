@@ -15,19 +15,21 @@ import RegisterOrganizador from './pages/RegisterOrganizador.js'
 import OrganizadorPage from './pages/OrganizadorPage.js'
 import ModificarOrganizadorPage from './pages/ModificarOrganizadorPage.js'
 import NavbarLogin from './components/NavbarLogin.js'
+import EventosOrganizador from './pages/EventosOrganizador.js'
+
+
+
+
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => !!localStorage.getItem('Token'));
 
   useEffect(() => {
-    // Verificar si el usuario está autenticado leyendo el token desde el localStorage
+    // Verificar si el usuario está autenticado leyendo el token desde el localStorage en cada renderizado
     const token = localStorage.getItem('Token');
-    if (token) {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-    }
+    setIsAuthenticated(!!token); // Actualiza isAuthenticated basado en la existencia del token
   }, []);
+
 
   return (
     <Router>
@@ -46,6 +48,7 @@ function App() {
               <Route path="/modificar-Usuario" element={<ModificarUsuarioPage />} />
               <Route path="/organizador" element={<OrganizadorPage/>} />
               <Route path="/modificar-organizador" element={<ModificarOrganizadorPage />} />
+              <Route path="/EventosOrganizador" element={<EventosOrganizador />} />
             </>
           ) : (
             // Si no está autenticado, redirige a la página de selección de login

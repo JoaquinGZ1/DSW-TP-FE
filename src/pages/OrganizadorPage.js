@@ -25,6 +25,7 @@ function OrganizadorPage() {
     localStorage.removeItem('organizador');
     localStorage.removeItem('Token');
     localStorage.removeItem('role'); // Opcional, si también deseas eliminar el rol
+    window.location.reload(); // Recargar la página para actualizar el estado de autenticación
 
     // Redirigir al login o página de selección de login
     navigate("/seleccion-login");
