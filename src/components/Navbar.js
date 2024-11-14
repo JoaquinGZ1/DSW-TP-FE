@@ -33,7 +33,8 @@ function Navbar() {
         {/* Si el rol es 'organizador', mostrar solo 'Eventos' y 'Perfil' */}
         {role === 'organizador' && (
           <>
-            <Link to="/EventosOrganizador" className="navbar-button">Mis Eventos</Link> {/* HACER */}
+            <Link to="/EventoCreate" className="navbar-button">Crear Evento</Link>
+            <Link to="/EventosOrganizador" className="navbar-button">Mis Eventos</Link> 
             <Link to="/organizador" className="navbar-button">Perfil</Link>
           </>
         )}

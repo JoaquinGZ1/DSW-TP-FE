@@ -19,7 +19,7 @@ export const getEventos = async () => {
 // Crear un nuevo evento
 export const createEvento = async (eventoData) => {
   try {
-    const response = await api.post('/eventos', eventoData); // Cambiado a ruta relativa
+    const response = await api.post('http://localhost:4000/api/eventos', eventoData); // Cambiado a ruta relativa
     return response.data;
   } catch (error) {
     console.error('Error creando evento:', error);
