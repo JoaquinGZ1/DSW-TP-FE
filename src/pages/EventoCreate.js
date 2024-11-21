@@ -24,16 +24,16 @@ const EventoCreate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const formattedDate = new Date(date).toISOString().slice(0, 19).replace('T', ' ');
     // Crear el FormData
     const formData = new FormData();
     formData.append('name', name);
     formData.append('cupos', parseInt(cupos, 10));
     formData.append('description', description);
-    formData.append('date', new Date(date).toISOString());
+    formData.append('date', formattedDate);
     formData.append('ubicacion', ubicacion);
     formData.append('organizador', organizador); // Organizador asignado automáticamente
-    formData.append('categoria', categoria);
+    formData.append('eventoCategoria', categoria);
 
     // Solo agregar la foto si el usuario ha seleccionado una
     if (photo) {
@@ -42,10 +42,10 @@ const EventoCreate = () => {
 
     try {
       // Realizar la llamada al backend usando Axios
-console.log('Creando evento:');
-formData.forEach((value, key) => {
-  console.log(`${key}: ${value}`);
-});      
+      console.log('Creando evento:');
+      formData.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+      });
       const response = await axios.post('http://localhost:4000/api/eventos', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',  // Importante para enviar FormData
@@ -56,7 +56,7 @@ formData.forEach((value, key) => {
       console.log('Evento creado:', response.data);
       console.error('Error al crear el evento');
 
-      
+
       // Limpiar el formulario después de la creación
       setName('');
       setCupos('');
@@ -66,9 +66,9 @@ formData.forEach((value, key) => {
       setCategoria('');
       setUbicacion('');
     } catch (error) {
-  console.error('Error creando el evento:', error);
-  alert(`Error creando evento: ${error.message}`);
-  }
+      console.error('Error creando el evento:', error);
+      alert(`Error creando evento: ${error.message}`);
+    }
   };
 
   return (
@@ -146,9 +146,9 @@ formData.forEach((value, key) => {
             />
           </label>
         </div>
-        
+
         {/* Organizador no es mostrado en el formulario ya que se asigna automáticamente */}
-        
+
         <button type="submit">Crear Evento</button>
       </form>
     </div>

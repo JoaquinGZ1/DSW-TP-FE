@@ -28,13 +28,21 @@ const CategoriaSelect = ({ onSelect }) => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div>
+    <div className="categoria-select">
       <label htmlFor="categoria">Selecciona una categoría:</label>
-      <select id="categoria" onChange={(e) => onSelect(e.target.value)} required>
+      <select
+        id="categoria"
+        onChange={(e) => {
+          const value = Number(e.target.value);
+          console.log('Categoría seleccionada:', value);
+          onSelect(value);
+        }}
+        required
+      >
         <option value="">Seleccione una categoría</option>
         {categorias.map((categoria) => (
           <option key={categoria.id} value={categoria.id}>
-            {categoria.name} {/* Cambia "name" si tu campo es diferente */}
+            {categoria.name}
           </option>
         ))}
       </select>

@@ -47,16 +47,26 @@ function EventosOrganizador() {
   return (
     <div>
       <h1>Mis Eventos</h1>
-      {/* Si el usuario tiene eventos, los renderiza; de lo contrario, muestra el mensaje de que no hay eventos */}
       {eventos.length > 0 ? (
         <ul className="eventos-list">
-          {eventos.map((evento) => (
-            <li key={evento.id} className="evento-item">
-              <h2>{evento.name}</h2>
-              <p>{evento.description}</p>
-              <p>Fecha: {new Date(evento.fecha).toLocaleDateString()}</p>
-            </li>
-          ))}
+          {eventos.map((evento) => {
+            const fecha = new Date(evento.date);
+            return (
+              <li key={evento.id} className="evento-item">
+                <h2>{evento.name}</h2>
+                <p>{evento.description}</p>
+                <p>Fecha: {fecha.toLocaleDateString('es-ES', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}</p>
+                <p>Hora: {fecha.toLocaleTimeString('es-ES', {
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}</p>
+              </li>
+            );
+          })}
         </ul>
       ) : (
         <p>No tienes eventos creados.</p>
