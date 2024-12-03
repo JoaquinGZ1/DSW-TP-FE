@@ -39,6 +39,29 @@ function EventosOrganizador() {
     fetchEventos();
   }, [organizadorId, navigate]);
 
+  // Función para eliminar un evento
+const eliminarEvento = async (id) => {
+  const confirmacion = prompt(
+    'Para confirmar la eliminación, escribe la palabra "ELIMINAR":'
+  );  
+
+  if (confirmacion === 'ELIMINAR') {
+    try {
+      await axios.delete(`http://localhost:4000/api/eventos/${id}`);
+      // Agregar un retraso antes de recargar la página
+      setTimeout(() => {
+        window.location.reload(); // Recargar la página después de mostrar el mensaje
+      }, 500); // Espera 500 ms para que la alerta sea visible
+    } catch (error) {
+      console.error('Error al eliminar el evento:', error);
+      alert('Hubo un problema al eliminar el evento.');
+    }
+  } else {
+    alert('Eliminación cancelada. Escribiste incorrectamente o cancelaste la operación.');
+  }
+};
+
+
   // Muestra "Cargando..." mientras se obtienen los datos
   if (loading) {
     return <p>Cargando...</p>;
@@ -53,17 +76,25 @@ function EventosOrganizador() {
             const fecha = new Date(evento.date);
             return (
               <li key={evento.id} className="evento-item">
-                <h2>{evento.name}</h2>
-                <p>{evento.description}</p>
-                <p>Fecha: {fecha.toLocaleDateString('es-ES', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}</p>
-                <p>Hora: {fecha.toLocaleTimeString('es-ES', {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}</p>
+                <div className="evento-info">
+                  <h2>{evento.name}</h2>
+                  <p>{evento.description}</p>
+                  <p>Fecha: {fecha.toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}</p>
+                  <p>Hora: {fecha.toLocaleTimeString('es-ES', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}</p>
+                </div>
+                <button
+                  className="btn-eliminar"
+                  onClick={() => eliminarEvento(evento.id)}
+                >
+                  Eliminar
+                </button>
               </li>
             );
           })}
