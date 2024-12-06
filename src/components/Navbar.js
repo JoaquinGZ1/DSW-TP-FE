@@ -24,8 +24,8 @@ function Navbar() {
           <>
             <Link to="/" className="navbar-button">Eventos</Link>
             <Link to="/entrada" className="navbar-button">Entradas</Link> {/* HACER */}
-            <Link to="/usuario" className="navbar-button">Perfil</Link>
             <Link to="/categorias" className="navbar-button">Categorias</Link> {/* HACER */}
+            <Link to="/usuario" className="navbar-button">Perfil</Link>
             
           </>
         )}

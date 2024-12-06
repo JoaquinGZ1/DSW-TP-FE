@@ -28,6 +28,7 @@ function LoginOrganizador({ setIsAuthenticated }) {
       localStorage.setItem('role', 'organizador');
       localStorage.setItem('Token', response.data.token);
       localStorage.setItem('organizador', JSON.stringify(response.data.organizador));
+      console.log('Organizador al guardar:', response.data.organizador);
 
       // Actualiza el estado de autenticación y redirige
       setIsAuthenticated(true); // <- Esto es clave para que App sepa que estamos autenticados

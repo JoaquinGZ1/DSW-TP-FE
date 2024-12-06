@@ -23,6 +23,7 @@ function LoginUsuario({ setIsAuthenticated }) { // Recibe setIsAuthenticated com
       localStorage.setItem('role', 'usuario');
       localStorage.setItem('Token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.usuario));
+      console.log('Usuario al guardar:', response.data.usuario);
 
       // Actualiza el estado de autenticación y redirige
       setIsAuthenticated(true); // <- Esto es clave para que App sepa que estamos autenticados

@@ -1,0 +1,101 @@
+/* Contenedor principal de CategoriaPage */
+.categoria-page {
+    font-family: 'Arial', sans-serif;
+    margin: 20px;
+}
+
+/* Título principal dentro de CategoriaPage */
+.categoria-page h2 {
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Barra de búsqueda */
+.categoria-page input[type="text"] {
+    padding: 8px;
+    width: 250px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.categoria-page input[type="text"]:focus {
+    border-color: #4CAF50;
+}
+
+/* Botón de búsqueda (lupa) */
+.categoria-page button {
+    padding: 8px 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.categoria-page button:hover {
+    background-color: #45a049;
+}
+
+/* Menú desplegable para ordenar */
+.categoria-page select {
+    padding: 8px;
+    margin-left: 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    outline: none;
+    cursor: pointer;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+.categoria-page select:focus {
+    border-color: #4CAF50;
+}
+
+/* Estilo de la lista de categorías */
+.categoria-page ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.categoria-page ul li {
+    background-color: #f9f9f9;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.categoria-page ul li h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.categoria-page ul li p {
+    margin: 5px 0;
+    color: #666;
+}
+
+/* Estilo de los errores */
+.categoria-page p[style*="color: red"] {
+    color: red;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Estilo cuando no se encuentran categorías */
+.categoria-page p {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    font-style: italic;
+}
