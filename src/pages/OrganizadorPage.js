@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './OrganizadorPage.css';
-import {  useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function OrganizadorPage() {
   const [organizador, setorganizador] = useState(null); // Estado para guardar el usuario logueado
@@ -37,7 +37,7 @@ function OrganizadorPage() {
 
   return (
     <div className="organizador-page">
-      <h2>Perfil de Usuario</h2>
+      <h2>Perfil de Organizador</h2>
 
       {/* Mostrar los datos del usuario logueado */}
       <div className="organizador-info">
@@ -46,16 +46,17 @@ function OrganizadorPage() {
         <p><strong>CUIT:</strong> {organizador.CUIT}</p>
         <p><strong>Descripción:</strong> {organizador.description}</p>
       </div>
+      <div className="event-buttons">
+        {/* Botón para editar el perfil */}
+        <button onClick={handleEditProfile} className="edit-profile-button">
+          Modificar Información
+        </button>
 
-      {/* Botón para editar el perfil */}
-      <button onClick={handleEditProfile} className="edit-profile-button">
-        Modificar Información
-      </button>
-
-      {/* Botón de Logout */}
-      <button onClick={handleLogout} className="logout-button">
-        Cerrar sesión
-      </button>
+        {/* Botón de Logout */}
+        <button onClick={handleLogout} className="logout-button">
+          Cerrar sesión
+        </button>
+      </div>
     </div>
   );
 }

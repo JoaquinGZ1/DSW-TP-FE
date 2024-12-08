@@ -11,13 +11,13 @@ function Navbar() {
       {/* Logo en la esquina superior izquierda */}
       <div className="navbar-logo">
         <Link to="/"> {/* Cambiar <a href="/"> a <Link to="/"> */}
-          <img src="/gragas.png" alt="Logo" className="logo" style={{ width: '128px', height: '128px' }} />
+          <img src="/WEVENT-LOGO.png" alt="Logo" className="logo" style={{ width: '128px', height: '128px' }} />
         </Link>
       </div>
 
       <div className="navbar-buttons">
         {/* Botón para Eventos siempre visible */}
-        
+
 
         {/* Si el rol es 'usuario', mostrar 'Entradas' y 'Perfil' */}
         {role === 'usuario' && (
@@ -26,7 +26,7 @@ function Navbar() {
             <Link to="/entrada" className="navbar-button">Entradas</Link> {/* HACER */}
             <Link to="/categorias" className="navbar-button">Categorias</Link> {/* HACER */}
             <Link to="/usuario" className="navbar-button">Perfil</Link>
-            
+
           </>
         )}
 
@@ -34,7 +34,7 @@ function Navbar() {
         {role === 'organizador' && (
           <>
             <Link to="/EventoCreate" className="navbar-button">Crear Evento</Link>
-            <Link to="/EventosOrganizador" className="navbar-button">Mis Eventos</Link> 
+            <Link to="/EventosOrganizador" className="navbar-button">Mis Eventos</Link>
             <Link to="/organizador" className="navbar-button">Perfil</Link>
           </>
         )}

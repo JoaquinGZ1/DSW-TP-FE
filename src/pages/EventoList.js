@@ -66,14 +66,16 @@ const EventosPage = () => {
             <div style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '8px' }}>
               {evento.photo && (
                 <img
-src={`http://localhost:4000/uploads/${evento.photo}`}
-                alt={evento.name}
-                style={{ width: '100%', maxHeight: '200px', objectFit: 'cover', borderRadius: '8px' }}
+                  src={`http://localhost:4000/${evento.photo}`}
+                  alt={evento.name}
+                  style={{ width: '100%', maxHeight: '200px', objectFit: 'cover', borderRadius: '8px' }}
                 />
               )}
               <h2>{evento.name}</h2>
               <p><strong>Descripción:</strong> {evento.description}</p>
+              <p><strong>Categoría:</strong> {evento.eventoCategoria?.name}</p>
               <p><strong>Fecha:</strong> {new Date(evento.date).toLocaleString('es-ES', { hour12: false })}</p>
+              <p><strong>Cupos:</strong> {evento.cupos}</p>
             </div>
           </li>
         ))}

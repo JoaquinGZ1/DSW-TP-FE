@@ -20,7 +20,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  background-color: #333;
+  background-color: #101628;
   color: #fff;
   position: sticky;
   top: 0;
@@ -40,14 +40,14 @@ body {
 }
 
 .navbar-button {
-  color: #fff;
+  color: #000000;
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
-  background-color: #555;
+  background-color: #ffffff;
   transition: background-color 0.3s;
 }
 
 .navbar-button:hover {
-  background-color: #777;
+  background-color: #7299e2;
 }

@@ -5,9 +5,9 @@
 .event-buttons {
   display: flex;
   /* Cambiar a flex para que los botones estén uno al lado del otro */
-  gap: 50px;
+  gap: 70px;
   /* Espacio entre botones */
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .event-button {

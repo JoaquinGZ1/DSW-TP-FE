@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './UsuarioPage.css';
-import {  useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function UsuarioPage() {
   const [user, setUser] = useState(null); // Estado para guardar el usuario logueado
@@ -26,7 +26,7 @@ function UsuarioPage() {
     localStorage.removeItem('Token');
     localStorage.removeItem('role'); // Opcional, si también deseas eliminar el rol
     window.location.reload() // recargar la página para actualizar el estado de autenticación
-    
+
     // Redirigir al login o página de selección de login
     navigate("/seleccion-login");
   };
@@ -47,15 +47,17 @@ function UsuarioPage() {
         <p><strong>Descripción:</strong> {user.description}</p>
       </div>
 
-      {/* Botón para editar el perfil */}
-      <button onClick={handleEditProfile} className="edit-profile-button">
-        Modificar Información
-      </button>
+      <div className="event-buttons">
+        {/* Botón para editar el perfil */}
+        <button onClick={handleEditProfile} className="edit-profile-button">
+          Modificar Información
+        </button>
 
-      {/* Botón de Logout */}
-      <button onClick={handleLogout} className="logout-button">
-        Cerrar sesión
-      </button>
+        {/* Botón de Logout */}
+        <button onClick={handleLogout} className="logout-button">
+          Cerrar sesión
+        </button>
+      </div>
     </div>
   );
 }
