@@ -27,8 +27,8 @@ const EventosPage = () => {
   // Función para ordenar eventos según la fecha
   const sortEventosByDate = (order) => {
     const sortedEventos = [...eventos].sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
+      const dateA = new Date(a.date); // Convierte a objeto Date
+      const dateB = new Date(b.date);
       return order === 'asc' ? dateA - dateB : dateB - dateA;
     });
     setEventos(sortedEventos);
