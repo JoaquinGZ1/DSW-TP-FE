@@ -26,17 +26,17 @@ function ModificarUsuarioPage() {
     try {
       // Aquí realizamos la llamada a la API para actualizar los datos del usuario
       const response = await axios.put(`http://localhost:4000/api/usuarios/update/${DNI}`, {
-  nickname,
-  mail,
-  DNI,
-  description,
-},
-{
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('Token')}`, // Token en el header
-        },
- }
-    );
+        nickname,
+        mail,
+        DNI,
+        description,
+      },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('Token')}`, // Token en el header
+          },
+        }
+      );
       // Si la actualización fue exitosa, actualizamos el localStorage
       localStorage.setItem('user', JSON.stringify(response.data));
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';  // Asegúrate de tener axios instalado: `npm install axios`
 import CategoriaSelect from '../components/CategoriaSelect';
 import './EventoCreate.css';
@@ -12,6 +13,7 @@ const EventoCreate = () => {
   const [categoria, setCategoria] = useState('');
   const [ubicacion, setUbicacion] = useState('');
   const [organizador, setOrganizador] = useState('');
+  const navigate = useNavigate();
 
   // Recupera el organizador desde localStorage al cargar el componente
   useEffect(() => {
@@ -71,6 +73,7 @@ const EventoCreate = () => {
       console.error('Error creando el evento:', error);
       alert(`Error creando evento: ${error.message}`);
     }
+    navigate('/EventosOrganizador')
   };
 
   return (
