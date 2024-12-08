@@ -73,7 +73,7 @@ src={`http://localhost:4000/uploads/${evento.photo}`}
               )}
               <h2>{evento.name}</h2>
               <p><strong>Descripción:</strong> {evento.description}</p>
-              <p><strong>Fecha:</strong> {new Date(evento.date).toLocaleString()}</p>
+              <p><strong>Fecha:</strong> {new Date(evento.date).toLocaleString('es-ES', { hour12: false })}</p>
             </div>
           </li>
         ))}

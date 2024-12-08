@@ -24,7 +24,9 @@ const EventoCreate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formattedDate = new Date(date).toISOString().slice(0, 19).replace('T', ' ');
+    const localDate = new Date(date); // Suponiendo que `dateInput` viene del frontend
+    const adjustedDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000);
+    const formattedDate = adjustedDate.toISOString().slice(0, 19).replace('T', ' ');
     // Crear el FormData
     const formData = new FormData();
     formData.append('name', name);
