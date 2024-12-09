@@ -109,7 +109,6 @@ const EventoCreate = () => {
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              required
               maxLength="500"
             />
           </label>
@@ -141,7 +140,7 @@ const EventoCreate = () => {
 
         <div>
           <label>
-            Ubicación:
+            Ubicación (Ciudad, Calle, altura):
             <input
               type="text"
               value={ubicacion}

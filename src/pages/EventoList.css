@@ -17,79 +17,7 @@
   margin-bottom: 40px;
 }
 
-/* Estilo de cada item de la lista de eventos */
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-/* Cada tarjeta de evento */
-.evento-card {
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.evento-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* Imagen del evento */
-.evento-card img {
-  width: 100%;
-  max-height: 300px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
-
-/* Título de cada evento */
-.evento-card h2 {
-  font-size: 2rem;
-  color: #333;
-  margin: 10px 0;
-  font-weight: bold;
-}
-
-/* Descripción de cada evento */
-.evento-card p {
-  font-size: 1rem;
-  color: #555;
-  line-height: 1.6;
-  margin: 10px 0;
-}
-
-/* Estilo para la fecha del evento */
-.evento-card .fecha {
-  font-size: 1rem;
-  color: #888;
-  text-align: right;
-  font-style: italic;
-  margin-top: 10px;
-}
-
-/* Efecto de carga */
-.loading {
-  text-align: center;
-  font-size: 1.5rem;
-  color: #3498db;
-  margin-top: 20px;
-}
-
-/* Estilo de error */
-.error {
-  text-align: center;
-  font-size: 1.5rem;
-  color: #e74c3c;
-  margin-top: 20px;
-}
-
+/* Estilo para los filtros de la página */
 .filters-container {
   display: flex;
   gap: 20px;
@@ -108,4 +36,73 @@ select {
   padding: 5px;
   border-radius: 4px;
   border: 1px solid #ccc;
+}
+
+/* Layout para la lista de eventos - Usamos Grid para 3 columnas */
+.evento-list-container ul {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Cada tarjeta de evento */
+.evento-card {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  height: 100%;
+}
+
+.evento-header {
+  cursor: pointer;
+}
+
+.evento-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Imagen del evento */
+.evento-card img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+/* Título de cada evento */
+.evento-card h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+/* Detalles ocultos que se muestran al hacer clic */
+.evento-details {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #ddd;
+  color: #555;
+}
+
+/* Ajustes para pantallas pequeñas (Responsividad) */
+@media (max-width: 768px) {
+  .evento-list-container ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .evento-list-container ul {
+    grid-template-columns: 1fr;
+  }
 }

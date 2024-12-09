@@ -22,7 +22,7 @@ function LoginUsuario({ setIsAuthenticated }) { // Recibe setIsAuthenticated com
       // Guardar el token y datos en localStorage
       localStorage.setItem('role', 'usuario');
       localStorage.setItem('Token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.usuario));
+      localStorage.setItem('user', JSON.stringify(response.data.usuario));  
       console.log('Usuario al guardar:', response.data.usuario);
 
       // Actualiza el estado de autenticación y redirige

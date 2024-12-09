@@ -32,13 +32,14 @@ function UsuarioPage() {
   };
 
   if (!user) {
-    return <div>Cargando...</div>; // Si aún no tenemos el usuario, mostramos un mensaje de carga
-  }
+  console.log('Cargando datos del usuario...'); // Indicar que aún no hay datos
+  return <div>Cargando...</div>;
+}
 
+console.log('Usuario listo para renderizar:', user); // Verificar contenido final
   return (
     <div className="usuario-page">
       <h2>Perfil de Usuario</h2>
-
       {/* Mostrar los datos del usuario logueado */}
       <div className="user-info">
         <p><strong>Nickname:</strong> {user.nickname}</p>

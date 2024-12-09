@@ -40,26 +40,32 @@ function EventosOrganizador() {
   }, [organizadorId, navigate]);
 
   // Función para eliminar un evento
-const eliminarEvento = async (id) => {
-  const confirmacion = prompt(
-    'Para confirmar la eliminación, escribe la palabra "ELIMINAR":'
-  );  
+  const eliminarEvento = async (id) => {
+    const confirmacion = prompt(
+      'Para confirmar la eliminación, escribe la palabra "ELIMINAR":'
+    );  
 
-  if (confirmacion === 'ELIMINAR') {
-    try {
-      await axios.delete(`http://localhost:4000/api/eventos/${id}`);
-      // Agregar un retraso antes de recargar la página
+    if (confirmacion === 'ELIMINAR') {
+      try {
+        console.log('Intentando eliminar evento...');
+        const response = await axios.delete(`http://localhost:4000/api/eventos/${id}`);
+        console.log('Respuesta del servidor:', response);
+        console.log('Evento eliminado, preparando para refrescar...');
       setTimeout(() => {
-        window.location.reload(); // Recargar la página después de mostrar el mensaje
-      }, 500); // Espera 500 ms para que la alerta sea visible
-    } catch (error) {
-      console.error('Error al eliminar el evento:', error);
-      alert('Hubo un problema al eliminar el evento.');
+        console.log('Refrescando...');
+        window.location.reload();
+      }, 1000);
+      } catch (error) {
+        console.error('Error al eliminar el evento:', error);
+        alert('Hubo un problema al eliminar el evento.');
+      }
+    } else {
+      alert('Eliminación cancelada. Escribiste incorrectamente o cancelaste la operación.');
     }
-  } else {
-    alert('Eliminación cancelada. Escribiste incorrectamente o cancelaste la operación.');
-  }
-};
+
+  };
+
+ 
 
 
   // Muestra "Cargando..." mientras se obtienen los datos
