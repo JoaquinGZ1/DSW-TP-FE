@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function ModificarOrganizadorPage() {
@@ -7,6 +8,7 @@ function ModificarOrganizadorPage() {
   const [mail, setMail] = useState('');
   const [CUIT, setCUIT] = useState('');
   const [description, setDescription] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Obtener los datos del organizador desde localStorage
@@ -34,17 +36,17 @@ function ModificarOrganizadorPage() {
       const cuitInt = parseInt(CUIT, 10);
 
       // Llamada a la API para actualizar los datos del organizador
-      const response = await axios.put(`http://localhost:4000/api/organizadores/update/${cuitInt}`, {
+      const response = await axios.put(`http://localhost:4000/api/organizadores/update/${organizador.id}`, {
         nickname,
         mail,
         CUIT: cuitInt,
         description,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('Token')}`, // Token en el header
-        },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('Token')}`, // Token en el header
+          },
+        });
 
       // Actualizar el localStorage con los datos actualizados
       localStorage.setItem('organizador', JSON.stringify(response.data));
@@ -54,6 +56,8 @@ function ModificarOrganizadorPage() {
       console.error('Error al actualizar el perfil:', error);
       alert('Hubo un error al actualizar el perfil');
     }
+    localStorage.removeItem('Token');
+    navigate("/login-organizador")
   };
 
   if (!organizador) {

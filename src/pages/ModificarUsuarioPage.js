@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Asegúrate de importar axios
 
 function ModificarUsuarioPage() {
@@ -7,6 +8,7 @@ function ModificarUsuarioPage() {
   const [mail, setMail] = useState('');
   const [DNI, setDNI] = useState('');
   const [description, setDescription] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Obtener los datos del usuario desde localStorage o alguna API
@@ -25,7 +27,7 @@ function ModificarUsuarioPage() {
 
     try {
       // Aquí realizamos la llamada a la API para actualizar los datos del usuario
-      const response = await axios.put(`http://localhost:4000/api/usuarios/update/${DNI}`, {
+      const response = await axios.put(`http://localhost:4000/api/usuarios/update/${user.id}`, {
         nickname,
         mail,
         DNI,
@@ -46,6 +48,8 @@ function ModificarUsuarioPage() {
       console.error('Error al actualizar el perfil:', error);
       alert('Hubo un error al actualizar el perfil');
     }
+    localStorage.removeItem('Token');
+    navigate("/login-usuario")
   };
 
   if (!user) {
