@@ -105,14 +105,15 @@ const EventosPage = () => {
               />
             )}
             <h2>{evento.name}</h2>
+          <p><strong>Fecha:</strong> {new Date(evento.date).toLocaleString('es-ES', { hour12: false })}</p>
+
           </div>
           
           {/* Solo se muestra si el evento está abierto */}
           {eventoAbierto === evento.id && (
             <div className="evento-details">
-              <p><strong>Descripción:</strong> {evento.description}</p>
+              <p><strong>Descripción:</strong> {evento.description ? evento.description : 'No disponible'} </p>
               <p><strong>Categoría:</strong> {evento.eventoCategoria?.name}</p>
-              <p><strong>Fecha:</strong> {new Date(evento.date).toLocaleString('es-ES', { hour12: false })}</p>
               <p><strong>Ubicación:</strong> {evento.ubicacion}</p>
               <p><strong>Cupos:</strong> {evento.cupos}</p>
             </div>
