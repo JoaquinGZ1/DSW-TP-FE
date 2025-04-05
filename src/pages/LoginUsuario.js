@@ -20,6 +20,7 @@ function LoginUsuario({ setIsAuthenticated }) { // Recibe setIsAuthenticated com
       });
 
       // Guardar el token y datos en localStorage
+      localStorage.setItem('id', response.data.usuario.id);
       localStorage.setItem('role', 'usuario');
       localStorage.setItem('Token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.usuario));  

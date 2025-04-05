@@ -44,6 +44,7 @@ function App() {
               <Route path="/categorias" element={<CategoriaPage />} />
               <Route path="/modificar-organizador" element={<ModificarOrganizadorPage />} />
               <Route path="/EventosOrganizador" element={<EventosOrganizador />} />
+              
             </>
           ) : (
             // Si no está autenticado, redirige a la página de selección de login

@@ -1,6 +1,38 @@
 import React, { useEffect, useState } from 'react'; 
 import axios from 'axios';
+import MapaEvento from './MapaEvento.js'; // ruta según tu estructura
 import './EventoList.css';
+
+const handleObtenerEntrada = async (evento) => {
+  try {
+    const usuario = JSON.parse(localStorage.getItem('user'));
+
+    const entradaData = {
+      status: 'comprada',
+      tipoEntrada: 1,
+      usuario: usuario.id,
+      evento: evento.id,
+    };
+
+    console.log('Usuario al obtener entrada:', usuario);
+    console.log('Datos que se van a enviar:', entradaData);
+
+    await axios.post('http://localhost:4000/api/entrada', entradaData);
+
+    alert('Entrada obtenida con éxito');
+  } catch (error) {
+    if (error.response && error.response.status === 409) {
+      alert('Ya tenés una entrada para este evento 🎟️');
+    } else {
+      console.error("Error al obtener entrada:", error);
+      alert('Ocurrió un error al obtener la entrada');
+    }
+  }
+};
+
+
+
+
 
 const EventosPage = () => {
   const [eventos, setEventos] = useState([]);
@@ -115,7 +147,14 @@ const EventosPage = () => {
               <p><strong>Descripción:</strong> {evento.description ? evento.description : 'No disponible'} </p>
               <p><strong>Categoría:</strong> {evento.eventoCategoria?.name}</p>
               <p><strong>Ubicación:</strong> {evento.ubicacion}</p>
+              <MapaEvento direccion={evento.ubicacion} />  {/* cambiar APIKEY*/}
               <p><strong>Cupos:</strong> {evento.cupos}</p>
+              <button
+                className="obtener-entrada-btn"
+                onClick={() => handleObtenerEntrada(evento)}
+              >
+                Obtener Entrada
+              </button>
             </div>
           )}
         </li>
