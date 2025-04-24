@@ -15,9 +15,7 @@ function UsuarioPage() {
   }, []);
 
   const handleEditProfile = () => {
-    // Redirigir a la página de edición de usuario
-    // Asegúrate de que tienes la ruta configurada correctamente para editar el perfil
-    navigate('/modificar-Usuario');
+    navigate('/edit-usuario');
   };
 
   const handleLogout = () => {

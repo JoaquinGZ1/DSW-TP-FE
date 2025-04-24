@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/RegisterUsuario.css';
+import axios from 'axios';
+import '../styles/EditUsuario.css';
 
-function RegisterUsuario() {
+function EditUsuario() {
   const [formData, setFormData] = useState({
     nickname: '',
     mail: '',
@@ -16,7 +16,23 @@ function RegisterUsuario() {
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
-  // Validaciones del lado del cliente
+  useEffect(() => {
+    // Cargar los datos actuales del usuario
+    const userData = JSON.parse(localStorage.getItem('user'));
+    if (userData) {
+      setFormData({
+        nickname: userData.nickname || '',
+        mail: userData.mail || '',
+        password: '', // No cargar la contraseña por seguridad
+        DNI: userData.DNI || '',
+        description: userData.description || ''
+      });
+    } else {
+      // Si no hay datos del usuario, redirigir al login
+      navigate('/login-usuario');
+    }
+  }, [navigate]);
+
   const validateForm = () => {
     const newErrors = {};
     
@@ -30,14 +46,15 @@ function RegisterUsuario() {
       newErrors.mail = 'Email inválido';
     }
 
-    if (!formData.password) {
-      newErrors.password = 'La contraseña es requerida';
-    } else if (formData.password.length < 8) {
-      newErrors.password = 'La contraseña debe tener al menos 8 caracteres';
-    } else if (!/\d/.test(formData.password)) {
-      newErrors.password = 'La contraseña debe contener al menos un número';
-    } else if (!/[A-Z]/.test(formData.password)) {
-      newErrors.password = 'La contraseña debe contener al menos una letra mayúscula';
+    // Solo validar la contraseña si se está intentando cambiar
+    if (formData.password) {
+      if (formData.password.length < 8) {
+        newErrors.password = 'La contraseña debe tener al menos 8 caracteres';
+      } else if (!/\d/.test(formData.password)) {
+        newErrors.password = 'La contraseña debe contener al menos un número';
+      } else if (!/[A-Z]/.test(formData.password)) {
+        newErrors.password = 'La contraseña debe contener al menos una letra mayúscula';
+      }
     }
 
     if (!formData.DNI) {
@@ -70,48 +87,59 @@ function RegisterUsuario() {
     setServerError('');
     setSuccess('');
 
-    // Validar formulario antes de enviar
     if (!validateForm()) {
       return;
     }
 
     try {
-      const response = await axios.post('http://localhost:4000/api/usuarios/register', 
-        formData,
+      const userData = JSON.parse(localStorage.getItem('user'));
+      if (!userData?.id) {
+        setServerError('No se pudo identificar al usuario');
+        return;
+      }
+
+      // Solo enviar los campos que han sido modificados
+      const updateData = {};
+      if (formData.nickname !== userData.nickname) updateData.nickname = formData.nickname;
+      if (formData.mail !== userData.mail) updateData.mail = formData.mail;
+      if (formData.password) updateData.password = formData.password;
+      if (formData.DNI !== userData.DNI) updateData.DNI = formData.DNI;
+      if (formData.description !== userData.description) updateData.description = formData.description;
+
+      const response = await axios.put(
+        `http://localhost:4000/api/usuarios/update/${userData.id}`,
+        updateData,
         {
           headers: {
             'Content-Type': 'application/json'
           },
-          withCredentials: true // Importante para manejar cookies
+          withCredentials: true // Importante para enviar las cookies
         }
       );
 
-      setSuccess('Registro exitoso. Redirigiendo al login...');
+      // Actualizar los datos en localStorage
+      localStorage.setItem('user', JSON.stringify(response.data.usuario));
+
+      setSuccess('Perfil actualizado exitosamente');
       
-      // Redirigir después de mostrar el mensaje de éxito
       setTimeout(() => {
-        navigate('/login-usuario');
-      }, 2000);
+        navigate('/usuario');
+      }, 1500);
     } catch (error) {
+      console.error('Error al actualizar:', error);
+      
       if (error.response?.data?.message) {
         setServerError(error.response.data.message);
-      } else if (error.response?.data?.errors) {
-        // Manejar errores de validación del servidor
-        const serverValidationErrors = {};
-        error.response.data.errors.forEach(err => {
-          serverValidationErrors[err.param] = err.msg;
-        });
-        setErrors(serverValidationErrors);
       } else {
-        setServerError('Error en el registro. Por favor, intente nuevamente.');
+        setServerError('Error al actualizar el perfil. Por favor, intente nuevamente.');
       }
     }
   };
 
   return (
-    <div className="register-container">
-      <h2>Registro de Usuario</h2>
-      <form onSubmit={handleSubmit} className="register-form">
+    <div className="edit-container">
+      <h2>Editar Perfil</h2>
+      <form onSubmit={handleSubmit} className="edit-form">
         <div className="form-group">
           <label htmlFor="nickname">Nickname:</label>
           <input
@@ -139,7 +167,7 @@ function RegisterUsuario() {
         </div>
 
         <div className="form-group">
-          <label htmlFor="password">Contraseña:</label>
+          <label htmlFor="password">Nueva Contraseña (dejar en blanco para mantener la actual):</label>
           <input
             type="password"
             id="password"
@@ -176,7 +204,18 @@ function RegisterUsuario() {
           {errors.description && <span className="error-message">{errors.description}</span>}
         </div>
 
-        <button type="submit" className="submit-button">Registrarse</button>
+        <div className="button-group">
+          <button type="submit" className="submit-button">
+            Guardar Cambios
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate('/usuario')}
+            className="cancel-button"
+          >
+            Cancelar
+          </button>
+        </div>
       </form>
 
       {serverError && <div className="error-message server-error">{serverError}</div>}
@@ -185,4 +224,4 @@ function RegisterUsuario() {
   );
 }
 
-export default RegisterUsuario;
+export default EditUsuario;

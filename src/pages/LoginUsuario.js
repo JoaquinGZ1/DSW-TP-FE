@@ -1,74 +1,139 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import '../styles/LoginUsuario.css';
 
-function LoginUsuario({ setIsAuthenticated }) { // Recibe setIsAuthenticated como prop
-  const [mail, setMail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+function LoginUsuario({ setIsAuthenticated }) {
+  const [formData, setFormData] = useState({
+    mail: '',
+    password: ''
+  });
+  const [errors, setErrors] = useState({});
+  const [serverError, setServerError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.mail) {
+      newErrors.mail = 'El email es requerido';
+    } else if (!/\S+@\S+\.\S+/.test(formData.mail)) {
+      newErrors.mail = 'Email inválido';
+    }
 
-    try {
-      // Enviar el mail y la contraseña al backend
-      const response = await axios.post('http://localhost:4000/api/usuarios/login', {
-        mail,
-        password,
-      });
+    if (!formData.password) {
+      newErrors.password = 'La contraseña es requerida';
+    }
 
-      // Guardar el token y datos en localStorage
-      localStorage.setItem('role', 'usuario');
-      localStorage.setItem('Token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.usuario));  
-      console.log('Usuario al guardar:', response.data.usuario);
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-      // Actualiza el estado de autenticación y redirige
-      setIsAuthenticated(true); // <- Esto es clave para que App sepa que estamos autenticados
-      setSuccess(`Login exitoso. Bienvenido, ${response.data.usuario.nickname}`);
-      setTimeout(() => {
-        navigate('/'); // Ajusta esta ruta si es necesario
-      }, 2000); // Redirige después de 2 segundos
-    } catch (error) {
-      setError(error.response?.data.message || 'Error en el inicio de sesión');
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    // Limpiar error del campo cuando el usuario empiece a escribir
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
     }
   };
 
-  const handleRegisterRedirect = () => {
-    navigate('/registerUsuario');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setServerError('');
+    setSuccess('');
+
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        'http://localhost:4000/api/usuarios/login',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          withCredentials: true // Importante para manejar cookies
+        }
+      );
+
+      // Solo guardamos la información del usuario
+      localStorage.setItem('user', JSON.stringify(response.data.usuario));
+      localStorage.setItem('role', 'usuario');
+
+      setIsAuthenticated(true);
+      setSuccess('Login exitoso. Redirigiendo...');
+      
+      setTimeout(() => {
+        navigate('/usuario');
+      }, 1500);
+    } catch (error) {
+      console.error('Error en login:', error);
+      
+      if (error.response?.status === 401) {
+        setServerError('Credenciales inválidas');
+      } else if (error.response?.data?.message) {
+        setServerError(error.response.data.message);
+      } else {
+        setServerError('Error en el inicio de sesión. Por favor, intente nuevamente.');
+      }
+    }
   };
 
   return (
-    <div>
+    <div className="login-container">
       <h2>Iniciar Sesión</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Correo Electrónico:</label>
+      <form onSubmit={handleSubmit} className="login-form">
+        <div className="form-group">
+          <label htmlFor="mail">Correo Electrónico:</label>
           <input
             type="email"
-            value={mail}
-            onChange={(e) => setMail(e.target.value)}
-            placeholder="Correo Electrónico"
+            id="mail"
+            name="mail"
+            value={formData.mail}
+            onChange={handleChange}
+            className={errors.mail ? 'error' : ''}
           />
+          {errors.mail && <span className="error-message">{errors.mail}</span>}
         </div>
-        <div>
-          <label>Contraseña:</label>
+
+        <div className="form-group">
+          <label htmlFor="password">Contraseña:</label>
           <input
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Contraseña"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            className={errors.password ? 'error' : ''}
           />
+          {errors.password && <span className="error-message">{errors.password}</span>}
         </div>
-        <button type="submit">Ingresar</button>
+
+        <button type="submit" className="submit-button">
+          Iniciar Sesión
+        </button>
+
+        <button
+          type="button"
+          onClick={() => navigate('/RegisterUsuario')}
+          className="register-button"
+        >
+          ¿No tienes cuenta? Regístrate
+        </button>
       </form>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}
-
-      <button onClick={handleRegisterRedirect}>Registrarse</button>
+      {serverError && <div className="error-message server-error">{serverError}</div>}
+      {success && <div className="success-message">{success}</div>}
     </div>
   );
 }
