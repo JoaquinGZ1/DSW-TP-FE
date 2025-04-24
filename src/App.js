@@ -41,6 +41,7 @@ function App() {
               <Route path="/categorias" element={<CategoriaPage />} />
               <Route path="/modificar-organizador" element={<ModificarOrganizadorPage />} />
               <Route path="/EventosOrganizador" element={<EventosOrganizador />} />
+              
             </>
           ) : (
             <Route path="*" element={<Navigate to="/seleccion-login" replace />} />

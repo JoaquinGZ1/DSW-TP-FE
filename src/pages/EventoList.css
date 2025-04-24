@@ -101,6 +101,27 @@ select {
   }
 }
 
+.obtener-entrada-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.obtener-entrada-btn:hover {
+  background-color: #0056b3;
+}
+
+.evento-details {
+  padding: 1rem;
+  background: #f9f9f9;
+  border-top: 1px solid #ccc;
+}
+
 @media (max-width: 480px) {
   .evento-list-container ul {
     grid-template-columns: 1fr;

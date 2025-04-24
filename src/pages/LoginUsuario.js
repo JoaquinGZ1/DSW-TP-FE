@@ -26,9 +26,12 @@ function LoginUsuario({ setIsAuthenticated }) {
       newErrors.password = 'La contraseña es requerida';
     }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+      // Guardar el token y datos en localStorage
+      localStorage.setItem('id', response.data.usuario.id);
+      localStorage.setItem('role', 'usuario');
+      localStorage.setItem('Token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.usuario));  
+      console.log('Usuario al guardar:', response.data.usuario);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
