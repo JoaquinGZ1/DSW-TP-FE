@@ -24,14 +24,10 @@ function LoginUsuario({ setIsAuthenticated }) {
 
     if (!formData.password) {
       newErrors.password = 'La contraseña es requerida';
-    }
-
-      // Guardar el token y datos en localStorage
-      localStorage.setItem('id', response.data.usuario.id);
-      localStorage.setItem('role', 'usuario');
-      localStorage.setItem('Token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.usuario));  
-      console.log('Usuario al guardar:', response.data.usuario);
+      }
+  
+      return Object.keys(newErrors).length === 0; // Return validation result
+    };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -69,9 +65,12 @@ function LoginUsuario({ setIsAuthenticated }) {
         }
       );
 
-      // Solo guardamos la información del usuario
-      localStorage.setItem('user', JSON.stringify(response.data.usuario));
+      // Guardar el token y datos en localStorage
+      localStorage.setItem('id', response.data.usuario.id);
       localStorage.setItem('role', 'usuario');
+      localStorage.setItem('Token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.usuario));  
+      console.log('Usuario al guardar:', response.data.usuario);
 
       setIsAuthenticated(true);
       setSuccess('Login exitoso. Redirigiendo...');
