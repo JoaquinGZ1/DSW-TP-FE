@@ -1,0 +1,88 @@
+/* Estilos para el componente MapaEvento */
+.mapa-evento-container {
+  width: 100%;
+  height: 300px;
+  margin-top: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.mapa-loading {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.mapa-error {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  margin-top: 1rem;
+  color: #6c757d;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.info-window-content {
+  padding: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.info-window-content h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.info-window-content p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.info-window-content p:not(:last-child) {
+  margin-bottom: 5px;
+}
+
+/* Responsividad para el mapa */
+@media (max-width: 768px) {
+  .mapa-evento-container,
+  .mapa-loading,
+  .mapa-error {
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mapa-evento-container,
+  .mapa-loading,
+  .mapa-error {
+    height: 200px;
+  }
+}

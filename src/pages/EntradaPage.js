@@ -1,71 +1,103 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import MapaEvento from './MapaEvento'; // Asegúrate de importar esto si quieres mostrar el mapa
+import './EventoList.css'; // Reutilizamos el mismo CSS
 
 function EntradasUsuario() {
-  const [entradas, setEntradas] = useState([]); // Almacenamos las entradas
-  const [loading, setLoading] = useState(true); // Estado de carga
+  const [entradas, setEntradas] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Obtener el ID del usuario desde localStorage y verifica si existe
-  const usuario = JSON.parse(localStorage.getItem('user')); // Cambié 'usuario' a 'user'
+  const usuario = JSON.parse(localStorage.getItem('user'));
   const usuarioId = usuario?.id;
-  console.log('usuarioId:', usuarioId);
 
   useEffect(() => {
-    // Si no hay usuarioId, redirigir a la página de inicio y salir del efecto
     if (!usuarioId) {
       navigate('/');
       return;
     }
 
-    // Función para obtener las entradas del usuario
     const fetchEntradas = async () => {
       try {
-        // Llama al endpoint para obtener las entradas del usuario
         const response = await axios.get(`http://localhost:4000/api/usuarios/${usuarioId}/entradas`);
-        console.log('Respuesta de entradas:', response.data); // Verifica la respuesta
-
-        // Asumiendo que las entradas están dentro de response.data.data
-        setEntradas(response.data.data); // Guardar las entradas en el estado
+        setEntradas(response.data.data);
       } catch (error) {
         console.error('Error al obtener entradas:', error);
       } finally {
-        setLoading(false); // Finaliza el estado de carga
+        setLoading(false);
       }
     };
 
-    // Llama a la función para obtener entradas
     fetchEntradas();
   }, [usuarioId, navigate]);
 
-  // Muestra "Cargando..." mientras se obtienen los datos
   if (loading) {
     return <p>Cargando...</p>;
   }
 
   return (
-    <div>
+    <div className="evento-list-container">
       <h1>Mis Entradas</h1>
       {entradas.length > 0 ? (
-        <ul className="entradas-list">
-          {entradas.map((entrada) => {
-            const fecha = new Date(entrada.date); // Asegúrate de que 'date' existe
+        <ul>
+          {entradas.map((entrada, index) => {
+            const evento = entrada.evento;
+            const fecha = new Date(entrada.date);
+            const fechaEvento = evento?.date ? new Date(evento.date) : null;
+
             return (
-              <li key={entrada.code} className="entrada-item">
-                <div className="entrada-info">
-                  <h2>{entrada.evento?.name || 'Evento no disponible'}</h2> {/* Maneja eventos nulos o faltantes */}
-                  <p>Tipo de Entrada: {entrada.tipoEntrada?.name || 'Tipo no disponible'}</p>
-                  <p>Estado: {entrada.status}</p>
-                  <p>Fecha de Compra: {fecha.toLocaleDateString('es-ES', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}</p>
-                  <p>Hora: {fecha.toLocaleTimeString('es-ES', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}</p>
+              <li key={entrada.code || `entrada-${index}`} className="evento-card">
+                <div className="evento-header">
+                  {evento?.photo && (
+                    <img
+                      src={`http://localhost:4000/${evento.photo}`}
+                      alt={evento.name}
+                    />
+                  )}
+                  <h2>{evento?.name || 'Evento no disponible'}</h2>
+                </div>
+
+                <div className="evento-details">
+                  {/* Sección de fechas - bien separadas */}
+                  <div className="fecha-section">
+                    <p><strong>📅 Fecha del Evento:</strong> {fechaEvento ? (
+                      `${fechaEvento.toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })} a las ${fechaEvento.toLocaleTimeString('es-ES', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}`
+                    ) : 'Fecha no disponible'}</p>
+                    
+                    <p><strong>🛒 Fecha de Compra de la Entrada:</strong> {!isNaN(fecha.getTime()) ? (
+                      `${fecha.toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })} a las ${fecha.toLocaleTimeString('es-ES', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}`
+                    ) : 'Fecha no disponible'}</p>
+                  </div>
+
+                  {/* Información de la entrada */}
+                  <div className="entrada-info">
+                    <p><strong>🎟️ Tipo de Entrada:</strong> {entrada.tipoEntrada?.name || 'No disponible'}</p>
+                    <p><strong>✅ Estado:</strong> {entrada.status}</p>
+                  </div>
+
+                  {/* Información del evento */}
+                  <div className="evento-info">
+                    <p><strong>📝 Descripción:</strong> {evento?.description || 'No disponible'}</p>
+                    <p><strong>🏷️ Categoría:</strong> {evento?.eventoCategoria?.name || 'Sin categoría'}</p>
+                    <p><strong>📍 Ubicación:</strong> {evento?.ubicacion || 'No especificada'}</p>
+                  </div>
+                  
+                  {evento?.ubicacion && <MapaEvento direccion={evento.ubicacion} />}
                 </div>
               </li>
             );
