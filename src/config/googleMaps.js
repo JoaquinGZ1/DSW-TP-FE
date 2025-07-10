@@ -9,40 +9,14 @@ export const GOOGLE_MAPS_CONFIG = {
   DEFAULT_MAP_TYPE: 'roadmap',
   
   // Estilos del mapa (opcional)
-  MAP_STYLES: [
-    {
-      "featureType": "all",
-      "elementType": "geometry.fill",
-      "stylers": [
-        {
-          "weight": "2.00"
-        }
-      ]
-    },
-    {
-      "featureType": "all",
-      "elementType": "geometry.stroke",
-      "stylers": [
-        {
-          "color": "#9c9c9c"
-        }
-      ]
-    },
-    {
-      "featureType": "all",
-      "elementType": "labels.text",
-      "stylers": [
-        {
-          "visibility": "on"
-        }
-      ]
-    }
-  ]
+  MAP_STYLES: []
 };
 
 // Función para verificar si la API key está configurada
 export const isGoogleMapsConfigured = () => {
-  return GOOGLE_MAPS_CONFIG.API_KEY && GOOGLE_MAPS_CONFIG.API_KEY !== 'YOUR_API_KEY';
+  const apiKey = GOOGLE_MAPS_CONFIG.API_KEY;
+  console.log('API Key verificada:', apiKey ? `${apiKey.substring(0, 10)}...` : 'No configurada'); // Debug
+  return apiKey && apiKey !== 'YOUR_API_KEY' && apiKey.trim() !== '';
 };
 
 // Función para obtener la URL del script de Google Maps

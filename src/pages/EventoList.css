@@ -6,6 +6,9 @@
   background-color: #f7f7f7;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden; /* Evitar scroll horizontal */
 }
 
 /* Título principal de la lista de eventos */
@@ -41,11 +44,14 @@ select {
 /* Layout para la lista de eventos - Usamos Grid para 3 columnas */
 .evento-list-container ul {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
   list-style: none;
   padding: 0;
   margin: 0;
+  align-items: start; /* Cambiar de stretch a start para evitar espacios en blanco */
+  width: 100%;
+  justify-items: stretch; /* Asegurar que las tarjetas usen todo el ancho disponible */
 }
 
 /* Cada tarjeta de evento */
@@ -57,11 +63,22 @@ select {
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-  height: 100%;
+  height: auto; /* Permitir altura automática */
+  width: 100%; /* Usar todo el ancho disponible del grid */
+  box-sizing: border-box; /* Incluir padding y border en el ancho total */
+  min-width: 0; /* Permitir que se contraiga si es necesario */
+  overflow: hidden; /* Evitar que el contenido se desborde */
+  align-self: start; /* Alinear al inicio para evitar estiramiento */
 }
 
 .evento-header {
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0; /* No expandir automáticamente */
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 300px; /* Altura mínima consistente para todas las tarjetas */
 }
 
 .evento-card:hover {
@@ -70,35 +87,90 @@ select {
 }
 
 /* Imagen del evento */
-.evento-card img {
+.evento-image-area img {
   width: 100%;
-  max-height: 200px;
+  height: 200px; /* Altura fija para todas las imágenes */
   object-fit: cover;
   border-radius: 8px;
+  display: block;
+  max-width: 100%;
+}
+
+/* Área reservada para imagen - siempre presente */
+.evento-image-area {
+  width: 100%;
+  height: 200px;
   margin-bottom: 15px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Placeholder cuando no hay imagen */
+.evento-placeholder {
+  width: 100%;
+  height: 200px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: #999;
+  font-size: 14px;
+  border: 2px dashed #ddd;
+  box-sizing: border-box;
 }
 
 /* Título de cada evento */
-.evento-card h2 {
+.evento-header h2 {
   font-size: 1.5rem;
   color: #333;
-  margin: 10px 0;
+  margin: 15px 0 10px 0;
   font-weight: bold;
+  flex-shrink: 0;
+  line-height: 1.3;
+  min-height: 2.6rem; /* Reservar espacio para hasta 2 líneas */
+  max-height: 3.9rem; /* Máximo 3 líneas */
+  width: 100%;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow: hidden; /* Ocultar texto que se desborde */
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limitar a 2 líneas */
+  line-clamp: 2; /* Estándar */
+  -webkit-box-orient: vertical;
+}
+
+/* Fecha del evento */
+.evento-header p {
+  margin: 5px 0;
+  color: #666;
+  flex-shrink: 0;
+  margin-top: auto; /* Empujar la fecha hacia abajo */
+  padding-top: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  overflow-wrap: break-word;
 }
 
 /* Detalles ocultos que se muestran al hacer clic */
 .evento-details {
   margin-top: 15px;
-  padding-top: 10px;
+  padding: 1rem;
   border-top: 1px solid #ddd;
   color: #555;
-}
-
-/* Ajustes para pantallas pequeñas (Responsividad) */
-@media (max-width: 768px) {
-  .evento-list-container ul {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  background: #f9f9f9;
+  border-top: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 0 0 10px 10px; /* Redondear esquinas inferiores */
 }
 
 .obtener-entrada-btn {
@@ -110,20 +182,241 @@ select {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  align-self: flex-start;
 }
 
 .obtener-entrada-btn:hover {
   background-color: #0056b3;
 }
 
-.evento-details {
-  padding: 1rem;
-  background: #f9f9f9;
-  border-top: 1px solid #ccc;
+/* Estilos específicos para la nueva estructura mejorada */
+
+/* Estilo para cuando no hay eventos */
+.no-eventos {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6c757d;
+}
+
+.no-eventos h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #495057;
+}
+
+.no-eventos p {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.no-eventos .emoji {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  display: block;
+}
+
+/* Sección de información del evento */
+.evento-info-section {
+  border-left: 3px solid #007bff;
+  padding-left: 15px;
+  margin: 15px 0;
+  background-color: #f8f9fa;
+  border-radius: 0 8px 8px 0;
+  padding: 10px 15px;
+}
+
+/* Estilo para fechas importantes */
+.fecha-destacada {
+  background-color: #f8f9fa;
+  padding: 8px 12px;
+  border-left: 4px solid #007bff;
+  margin: 8px 0;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Estilo para información destacada */
+.info-destacada {
+  background-color: #e7f3ff;
+  border: 1px solid #b3d7ff;
+  border-radius: 6px;
+  padding: 10px;
+  margin: 8px 0;
+}
+
+/* Estilos para el estado del evento */
+.estado-evento {
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin: 8px 0;
+  font-weight: bold;
+}
+
+.estado-evento.proximo {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.estado-evento.futuro {
+  background-color: #cce8ff;
+  color: #004085;
+  border: 1px solid #99d1ff;
+}
+
+.estado-evento.pasado {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.estado-evento.sin-fecha {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+/* Mejoras para la información completa del evento */
+.evento-info-completa {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 10px 0;
+  border-left: 4px solid #28a745;
+}
+
+.evento-info-completa p {
+  margin-bottom: 8px;
+  color: #155724;
+}
+
+.evento-info-completa p strong {
+  color: #0d4521;
+}
+
+/* Sección de ubicación del evento */
+.evento-ubicacion-section {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.evento-mapa-container {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.evento-mapa-container p {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #495057;
+}
+
+/* Acciones del evento */
+.evento-actions {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #e9ecef;
+  text-align: center;
+}
+
+/* Mejoras para el botón de obtener entrada */
+.obtener-entrada-btn {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+}
+
+.obtener-entrada-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0056b3, #004085);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
+}
+
+.obtener-entrada-btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+}
+
+.obtener-entrada-btn:disabled {
+  background: linear-gradient(135deg, #6c757d, #5a6268);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 4px rgba(108, 117, 125, 0.3);
+}
+
+/* Indicador visual para eventos expandidos */
+.evento-card[data-expanded="true"] .evento-header {
+  background-color: rgba(102, 126, 234, 0.08);
+  border-radius: 8px 8px 0 0;
+}
+
+/* Mejoras específicas para el título de eventos */
+.evento-list-container h1 {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Cursor pointer para las tarjetas de evento */
+.evento-card .evento-header {
+  cursor: pointer;
+}
+
+/* Responsividad para las nuevas secciones */
+@media (max-width: 768px) {
+  .evento-info-section,
+  .evento-info-completa,
+  .evento-ubicacion-section {
+    padding: 10px;
+    margin: 10px 0;
+  }
+  
+  .fecha-destacada,
+  .info-destacada,
+  .estado-evento {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+  
+  .obtener-entrada-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+  }
+  
+  .no-eventos .emoji {
+    font-size: 2.5rem;
+  }
 }
 
 @media (max-width: 480px) {
-  .evento-list-container ul {
-    grid-template-columns: 1fr;
+  .evento-info-section {
+    border-left: 2px solid #007bff;
+    padding-left: 10px;
+  }
+  
+  .fecha-destacada {
+    border-left: 3px solid #007bff;
+    padding: 6px 8px;
+  }
+  
+  .evento-info-completa {
+    border-left: 3px solid #28a745;
+    padding: 10px;
   }
 }

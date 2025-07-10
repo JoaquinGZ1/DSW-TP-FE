@@ -4,26 +4,21 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './MapaEvento.css';
 
-// Fix para los iconos de Leaflet en React
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerIconRetina from 'leaflet/dist/images/marker-icon-2x.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-
 // Configurar los iconos de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: markerIconRetina,
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
+  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+  iconUrl: require('leaflet/dist/images/marker-icon.png'),
+  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
 
-const MapaEvento = ({ direccion }) => {
+const MapaEventoOSM = ({ direccion }) => {
   const [position, setPosition] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log('MapaEvento - Iniciando con dirección:', direccion);
+    console.log('MapaEventoOSM - Iniciando con dirección:', direccion);
 
     if (!direccion) {
       setError('No se proporcionó una dirección');
@@ -34,10 +29,9 @@ const MapaEvento = ({ direccion }) => {
     // Función para geocodificar usando Nominatim (OpenStreetMap)
     const geocodeAddress = async (address) => {
       try {
-        setLoading(true);
         const encodedAddress = encodeURIComponent(address);
         const response = await fetch(
-          `https://nominatim.openstreetmap.org/search?format=json&q=${encodedAddress}&limit=1&addressdetails=1&countrycodes=ar`
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodedAddress}&limit=1&addressdetails=1`
         );
         
         if (!response.ok) {
@@ -58,24 +52,20 @@ const MapaEvento = ({ direccion }) => {
             displayName: result.display_name,
             address: result.address || {}
           });
-          setError(null);
+          setLoading(false);
         } else {
           setError('No se encontró la ubicación');
+          setLoading(false);
         }
       } catch (error) {
         console.error('Error en geocoding:', error);
         setError('Error al buscar la ubicación');
-      } finally {
         setLoading(false);
       }
     };
 
-    // Ejecutar geocodificación con un pequeño delay para evitar rate limiting
-    const timer = setTimeout(() => {
-      geocodeAddress(direccion);
-    }, 100);
-
-    return () => clearTimeout(timer);
+    // Ejecutar geocodificación
+    geocodeAddress(direccion);
   }, [direccion]);
 
   if (loading) {
@@ -87,8 +77,8 @@ const MapaEvento = ({ direccion }) => {
           <p style={{ fontSize: '0.8rem', color: '#666' }}>
             Dirección: {direccion}
           </p>
-          <p style={{ fontSize: '0.7rem', color: '#28a745' }}>
-            ✅ OpenStreetMap (100% Gratuito)
+          <p style={{ fontSize: '0.7rem', color: '#999' }}>
+            Usando OpenStreetMap (Gratuito)
           </p>
         </div>
       </div>
@@ -110,11 +100,8 @@ const MapaEvento = ({ direccion }) => {
               color: 'white',
               border: 'none',
               borderRadius: '4px',
-              cursor: 'pointer',
-              transition: 'background-color 0.3s'
+              cursor: 'pointer'
             }}
-            onMouseOver={(e) => e.target.style.backgroundColor = '#0056b3'}
-            onMouseOut={(e) => e.target.style.backgroundColor = '#007bff'}
           >
             Ver en OpenStreetMap
           </button>
@@ -145,7 +132,6 @@ const MapaEvento = ({ direccion }) => {
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          maxZoom={19}
         />
         <Marker position={[position.lat, position.lng]}>
           <Popup>
@@ -161,26 +147,9 @@ const MapaEvento = ({ direccion }) => {
               </p>
               {position.displayName && (
                 <p style={{ margin: '0', fontSize: '0.8rem', color: '#666' }}>
-                  <strong>Ubicación completa:</strong><br />
                   {position.displayName}
                 </p>
               )}
-              <div style={{ marginTop: '10px', paddingTop: '10px', borderTop: '1px solid #eee' }}>
-                <button
-                  onClick={() => window.open(`https://www.openstreetmap.org/?mlat=${position.lat}&mlon=${position.lng}&zoom=16`, '_blank')}
-                  style={{
-                    padding: '4px 8px',
-                    fontSize: '0.8rem',
-                    backgroundColor: '#28a745',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '3px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  Ver en OSM
-                </button>
-              </div>
             </div>
           </Popup>
         </Marker>
@@ -189,4 +158,4 @@ const MapaEvento = ({ direccion }) => {
   );
 };
 
-export default MapaEvento;
+export default MapaEventoOSM;
