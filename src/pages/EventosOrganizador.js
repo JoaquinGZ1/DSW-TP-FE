@@ -78,9 +78,9 @@ function EventosOrganizador() {
   };
 
   // Helper para formatear categoría
-  const formatearCategoria = (categoria) => {
-    if (!categoria || !categoria.name) return 'Sin categoría';
-    return categoria.name;
+  const formatearCategoria = (eventoCategoria) => {
+    if (!eventoCategoria || !eventoCategoria.name) return 'Sin categoría';
+    return eventoCategoria.name;
   };
 
   // Helper para formatear ubicación
@@ -193,15 +193,31 @@ function EventosOrganizador() {
                   <div className="evento-image-area">
                     {evento.photo ? (
                       <img 
-                        src={evento.photo} 
-                        alt={evento.name}
+                        src={`http://localhost:4000/${evento.photo}`} 
+                        alt={evento.name || 'Evento'}
+                        className="evento-image"
+                        onLoad={() => {
+                          console.log('Imagen cargada correctamente:', evento.photo);
+                        }}
                         onError={(e) => {
+                          console.log('Error cargando imagen:', evento.photo);
+                          console.log('URL completa:', `http://localhost:4000/${evento.photo}`);
                           e.target.style.display = 'none';
                           e.target.nextSibling.style.display = 'flex';
                         }}
                       />
                     ) : null}
-                    <div className="evento-placeholder" style={{display: evento.photo ? 'none' : 'flex'}}>
+                    <div 
+                      className="evento-placeholder" 
+                      style={{
+                        display: evento.photo ? 'none' : 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: '#f0f0f0',
+                        border: '2px dashed #ddd',
+                        color: '#999'
+                      }}
+                    >
                       <span>📅 Sin imagen</span>
                     </div>
                   </div>

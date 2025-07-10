@@ -5,10 +5,8 @@ import EventoList from './pages/EventoList.js';
 import EntradaPage from './pages/EntradaPage.js'; // Verifica que este archivo exista en 'pages'
 import UsuarioPage from './pages/UsuarioPage.js';
 import EventoCreate from './pages/EventoCreate.js';
-import LoginUsuario from './pages/LoginUsuario.js';
-import LoginOrganizador from './pages/LoginOrganizador.js';
+import LoginUnificado from './pages/LoginUnificado.js';
 import RegisterUsuario from './pages/RegisterUsuario.js';
-import SeleccionLogin from './pages/SeleccionLogin.js';
 import ModificarUsuarioPage from './pages/ModificarUsuarioPage.js';
 import RegisterOrganizador from './pages/RegisterOrganizador.js';
 import OrganizadorPage from './pages/OrganizadorPage.js';
@@ -47,14 +45,12 @@ function App() {
               
             </>
           ) : (
-            // Si no está autenticado, redirige a la página de selección de login
-            <Route path="*" element={<Navigate to="/seleccion-login" replace />} />
+            // Si no está autenticado, redirige al login unificado
+            <Route path="*" element={<Navigate to="/login" replace />} />
           )}
 
-          {/* Rutas para login */}
-          <Route path="/seleccion-login" element={<SeleccionLogin />} />
-          <Route path="/login-usuario" element={<LoginUsuario setIsAuthenticated={setIsAuthenticated} />} />
-          <Route path="/login-organizador" element={<LoginOrganizador  setIsAuthenticated={setIsAuthenticated} />} />
+          {/* Ruta para login unificado */}
+          <Route path="/login" element={<LoginUnificado setIsAuthenticated={setIsAuthenticated} />} />
           <Route path="/registerUsuario" element={<RegisterUsuario />} />
           <Route path="/registerOrganizador" element={<RegisterOrganizador />} />
         </Routes>

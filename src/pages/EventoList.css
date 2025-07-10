@@ -285,12 +285,18 @@ select {
 }
 
 .evento-info-completa p {
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   color: #155724;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  font-weight: 500;
 }
 
 .evento-info-completa p strong {
   color: #0d4521;
+  font-weight: 700;
 }
 
 /* Sección de ubicación del evento */

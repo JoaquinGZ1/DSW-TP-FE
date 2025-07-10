@@ -111,6 +111,10 @@
   transition: transform 0.3s ease;
 }
 
+.evento-image-area img.evento-image {
+  display: block;
+}
+
 .evento-card:hover .evento-image-area img {
   transform: scale(1.05);
 }
@@ -309,17 +313,6 @@
 .mapa-container > div {
   height: 100% !important;
   border-radius: 8px;
-}
-
-.ubicacion-pendiente {
-  color: #666;
-  font-style: italic;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  text-align: center;
-  border: 1px solid #e9ecef;
-  margin: 0;
 }
 
 /* Acciones del evento */
