@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './ModificarOrganizadorPage.css';
 
 function ModificarOrganizadorPage() {
   const [organizador, setOrganizador] = useState(null);
@@ -32,14 +33,11 @@ function ModificarOrganizadorPage() {
     }
 
     try {
-      // Convertir CUIT a entero antes de enviar a la API
-      const cuitInt = parseInt(CUIT, 10);
-
-      // Llamada a la API para actualizar los datos del organizador
+      // Enviar CUIT como string, no como entero (según la entidad del backend)
       const response = await axios.put(`http://localhost:4000/api/organizadores/update/${organizador.id}`, {
         nickname,
         mail,
-        CUIT: cuitInt,
+        CUIT: CUIT, // Mantener como string
         description,
       },
         {
@@ -52,21 +50,55 @@ function ModificarOrganizadorPage() {
       localStorage.setItem('organizador', JSON.stringify(response.data));
 
       alert('Perfil actualizado correctamente');
+      
+      // Cerrar sesión: eliminar datos del localStorage
+      localStorage.removeItem('organizador');
+      localStorage.removeItem('Token');
+      localStorage.removeItem('role');
+      
+      // Refrescar página y redirigir al login
+      setTimeout(() => {
+        window.location.reload();
+        navigate('/login');
+      }, 1000);
+      
     } catch (error) {
-      console.error('Error al actualizar el perfil:', error);
-      alert('Hubo un error al actualizar el perfil');
+      console.error('Error completo al actualizar el perfil:', error);
+      
+      if (error.response) {
+        // El servidor respondió con un código de estado que indica error
+        console.error('Error response data:', error.response.data);
+        console.error('Error status:', error.response.status);
+        alert(`Error al actualizar el perfil: ${error.response.data.message || 'Error desconocido'}`);
+      } else if (error.request) {
+        // La petición se hizo pero no se recibió respuesta
+        console.error('Error request:', error.request);
+        alert('No se pudo conectar con el servidor. Verifica tu conexión.');
+      } else {
+        // Algo pasó al configurar la petición
+        console.error('Error message:', error.message);
+        alert('Error al configurar la petición: ' + error.message);
+      }
     }
-    localStorage.removeItem('Token');
-    navigate("/login-organizador")
   };
 
   if (!organizador) {
-    return <div>Cargando...</div>;
+    return (
+      <div className="modificar-organizador-page">
+        <div className="modificar-organizador-form-container">
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <p className="loading-text">Cargando...</p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="modificar-organizador-page">
-      <h2>Modificar Información de Organizador</h2>
+      <div className="modificar-organizador-form-container">
+        <h2>Modificar Información de Organizador</h2>
 
       <form onSubmit={handleSubmit}>
         <div>
@@ -106,6 +138,7 @@ function ModificarOrganizadorPage() {
 
         <button type="submit">Guardar cambios</button>
       </form>
+      </div>
     </div>
   );
 }

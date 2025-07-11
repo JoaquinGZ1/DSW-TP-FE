@@ -1,61 +1,119 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './OrganizadorPage.css';
-import { useNavigate } from 'react-router-dom'
 
 function OrganizadorPage() {
-  const [organizador, setorganizador] = useState(null); // Estado para guardar el usuario logueado
-  const navigate = useNavigate(); // Usar el hook useNavigate
+  const [organizador, setOrganizador] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Obtener la información del usuario logueado del localStorage
     const organizadorData = JSON.parse(localStorage.getItem('organizador'));
     if (organizadorData) {
-      setorganizador(organizadorData); // Almacenar los datos del organizador en el estado
+      setOrganizador(organizadorData);
     }
   }, []);
 
   const handleEditProfile = () => {
-    // Redirigir a la página de edición de organizador
-    // Asegúrate de que tienes la ruta configurada correctamente para editar el perfil
     navigate('/modificar-organizador');
   };
 
   const handleLogout = () => {
-    // Eliminar los datos del organizador y el token del localStorage
     localStorage.removeItem('organizador');
     localStorage.removeItem('Token');
-    localStorage.removeItem('role'); // Opcional, si también deseas eliminar el rol
-    window.location.reload(); // Recargar la página para actualizar el estado de autenticación
-
-    // Redirigir al login o página de selección de login
-    navigate("/seleccion-login");
+    localStorage.removeItem('role');
+    window.location.reload();
+    navigate("/login");
   };
 
   if (!organizador) {
-    return <div>Cargando...</div>; // Si aún no tenemos el organizador, mostramos un mensaje de carga
+    return (
+      <div className="profile-organizador-container">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p className="loading-text">Cargando perfil...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="organizador-page">
-      <h2>Perfil de Organizador</h2>
+    <div className="profile-organizador-container">
+      <div className="profile-organizador-card">
+        {/* Header del perfil */}
+        <div className="profile-organizador-header">
+          <div className="profile-organizador-avatar">
+            <span className="avatar-organizador-icon">🏢</span>
+          </div>
+          <div className="profile-organizador-title">
+            <h1 className="welcome-organizador-text">
+              <span className="rocket-emoji">🚀</span>
+              ¡Hola, {organizador.nickname}!
+            </h1>
+            <p className="profile-organizador-subtitle">Perfil de Organizador</p>
+          </div>
+        </div>
 
-      {/* Mostrar los datos del usuario logueado */}
-      <div className="organizador-info">
-        <p><strong>Nickname:</strong> {organizador.nickname}</p>
-        <p><strong>Email:</strong> {organizador.mail}</p>
-        <p><strong>CUIT:</strong> {organizador.CUIT}</p>
-        <p><strong>Descripción:</strong> {organizador.description}</p>
-      </div>
-      <div className="event-buttons">
-        {/* Botón para editar el perfil */}
-        <button onClick={handleEditProfile} className="edit-profile-button">
-          Modificar Información
-        </button>
+        {/* Información del organizador */}
+        <div className="profile-organizador-info">
+          <h3 className="info-organizador-section-title">
+            <span className="section-organizador-icon">📊</span>
+            Información de la Organización
+          </h3>
+          
+          <div className="info-organizador-grid">
+            <div className="info-organizador-item">
+              <div className="info-organizador-label">
+                <span className="label-organizador-icon">✨</span>
+                Nombre de la Organización
+              </div>
+              <div className="info-organizador-value">{organizador.nickname || 'No especificado'}</div>
+            </div>
 
-        {/* Botón de Logout */}
-        <button onClick={handleLogout} className="logout-button">
-          Cerrar sesión
-        </button>
+            <div className="info-organizador-item">
+              <div className="info-organizador-label">
+                <span className="label-organizador-icon">📧</span>
+                Correo Electrónico
+              </div>
+              <div className="info-organizador-value">{organizador.mail || 'No especificado'}</div>
+            </div>
+
+            <div className="info-organizador-item">
+              <div className="info-organizador-label">
+                <span className="label-organizador-icon">🏛️</span>
+                CUIT
+              </div>
+              <div className="info-organizador-value">{organizador.CUIT || 'No especificado'}</div>
+            </div>
+
+            <div className="info-organizador-item full-width-organizador">
+              <div className="info-organizador-label">
+                <span className="label-organizador-icon">📝</span>
+                Descripción de la Organización
+              </div>
+              <div className="info-organizador-value description-organizador">
+                {organizador.description || 'Sin descripción agregada'}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Acciones del perfil */}
+        <div className="profile-organizador-actions">
+          <button onClick={handleEditProfile} className="action-organizador-button primary-organizador">
+            <span className="button-organizador-icon">✏️</span>
+            Modificar Información
+          </button>
+
+          <button onClick={handleLogout} className="action-organizador-button secondary-organizador">
+            <span className="button-organizador-icon">🚪</span>
+            Cerrar Sesión
+          </button>
+        </div>
+
+        {/* Footer decorativo */}
+        <div className="profile-organizador-footer">
+          <p className="footer-organizador-text">¡Crea eventos increíbles y conecta con tu audiencia! 🎭</p>
+        </div>
       </div>
     </div>
   );

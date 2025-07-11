@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'; 
 import axios from 'axios';
-import MapaEventoMejorado from '../components/MapaEventoMejorado'; // Versión con geocodificación
+import MapaEvento from '../components/MapaEvento';
 import './EventoList.css';
 
 
@@ -243,7 +243,7 @@ const EventosPage = () => {
                         <p><strong>📍 Ubicación:</strong> {infoEvento.ubicacion}</p>
                         <div className="evento-mapa-container">
                           <p><strong>🗺️ Mapa del evento:</strong></p>
-                          <MapaEventoMejorado direccion={infoEvento.ubicacion} />
+                          <MapaEvento direccion={infoEvento.ubicacion} />
                         </div>
                       </div>
                     )}

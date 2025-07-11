@@ -1,85 +1,42 @@
-/* Estilos para el componente MapaEvento con Leaflet */
+/* Contenedor principal del mapa */
 .mapa-evento-container {
   width: 100%;
-  height: 300px;
-  margin-top: 1rem;
-  border: 1px solid #ddd;
+  margin: 15px 0;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Mapa principal */
+.mapa-evento {
+  width: 100%;
+  height: 300px;
+  min-height: 200px;
+  background: #f8f9fa;
+  border-radius: 8px;
   position: relative;
-  display: block; /* Asegurar que se muestre solo cuando está presente */
+  overflow: hidden;
 }
 
-/* Fix para iconos de Leaflet */
-.leaflet-default-icon-path {
-  background-image: url('~leaflet/dist/images/marker-icon.png');
-}
-
-/* Estilos para el contenedor del mapa de Leaflet */
-.mapa-evento-container .leaflet-container {
-  height: 100%;
-  width: 100%;
-  border-radius: 8px;
-}
-
+/* Estado de carga */
 .mapa-loading {
-  width: 100%;
-  height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #f0f0f0;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-top: 1rem;
-}
-
-.mapa-error {
-  width: 100%;
-  height: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  margin-top: 1rem;
+  height: 100%;
   color: #6c757d;
-  text-align: center;
-  padding: 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
-.mapa-error button {
-  margin-top: 10px;
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.mapa-error button:hover {
-  background-color: #0056b3;
-}
-
-.error-detail {
-  font-size: 12px;
-  color: #999;
-  margin-top: 5px;
-}
-
-.loading-spinner {
+.mapa-spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #007bff;
+  border: 3px solid #e9ecef;
+  border-top: 3px solid #007bff;
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin: 0 auto 10px;
+  margin-bottom: 10px;
 }
 
 @keyframes spin {
@@ -87,72 +44,120 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Estilos para el popup de Leaflet */
-.leaflet-popup-content {
-  margin: 8px 12px;
-  line-height: 1.4;
-  font-size: 13px;
-  font-family: Arial, sans-serif;
-}
-
-.leaflet-popup-content h4 {
-  margin: 0 0 10px 0;
-  color: #333;
-  font-size: 16px;
-}
-
-.leaflet-popup-content p {
-  margin: 0 0 5px 0;
-  color: #666;
+.mapa-loading p {
+  margin: 0;
   font-size: 14px;
+  color: #6c757d;
 }
 
-/* Responsividad para el mapa */
+/* Fallback cuando no hay mapa disponible */
+.mapa-fallback {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px dashed #dee2e6;
+  border-radius: 8px;
+}
+
+.mapa-fallback-content {
+  text-align: center;
+  padding: 20px;
+  color: #495057;
+}
+
+.mapa-fallback-content h4 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  color: #343a40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.mapa-fallback-content p {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #495057;
+}
+
+.mapa-fallback-content small {
+  font-size: 12px;
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* Cuando no hay dirección */
+.mapa-evento.no-direccion {
+  background: #f1f3f4;
+  border: 2px dashed #dee2e6;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  .mapa-evento-container,
-  .mapa-loading,
-  .mapa-error {
+  .mapa-evento {
     height: 250px;
+    min-height: 200px;
+  }
+  
+  .mapa-fallback-content {
+    padding: 15px;
+  }
+  
+  .mapa-fallback-content h4 {
+    font-size: 16px;
+  }
+  
+  .mapa-fallback-content p {
+    font-size: 14px;
   }
 }
 
 @media (max-width: 480px) {
-  .mapa-evento-container,
-  .mapa-loading,
-  .mapa-error {
+  .mapa-evento {
     height: 200px;
+    min-height: 180px;
+  }
+  
+  .mapa-spinner {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .mapa-loading p {
+    font-size: 12px;
   }
 }
 
-/* Estilos adicionales para controles de Leaflet */
-.leaflet-control-zoom {
-  border-radius: 4px !important;
+/* Estilos para leaflet si se carga */
+.leaflet-container {
+  border-radius: 8px;
 }
 
-.leaflet-control-zoom a {
-  border-radius: 4px !important;
-  border: none !important;
+/* Personalización del popup de Leaflet */
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.2);
 }
 
-/* Personalización del marcador */
-.leaflet-marker-icon {
-  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+.leaflet-popup-content {
+  margin: 13px 19px;
+  line-height: 1.4;
+  font-size: 13px;
+  min-height: 1px;
 }
 
-/* Evitar espacios vacíos cuando el mapa no está presente */
-.evento-details {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* Estilos para iframe cuando se usa como fallback */
+iframe {
+  border-radius: 8px;
+  transition: opacity 0.3s ease;
 }
 
-/* Asegurar que el contenedor del mapa no reserve espacio cuando no está presente */
-.mapa-evento-container:not(:first-child) {
-  margin-top: 1rem;
-}
-
-/* Prevenir que el grid se estire por elementos expandidos */
-.evento-card {
-  align-self: start !important;
-  justify-self: start !important;
+/* Hover effects */
+.mapa-evento-container:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.3s ease;
 }

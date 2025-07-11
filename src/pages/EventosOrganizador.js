@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import MapaEventoMejorado from '../components/MapaEventoMejorado';
+import MapaEvento from '../components/MapaEvento';
 import './EventosOrganizador.css';
 
 function EventosOrganizador() {
@@ -277,7 +277,7 @@ function EventosOrganizador() {
                       <div className="evento-mapa">
                         <h4>🗺️ Ubicación en el mapa</h4>
                         <div className="mapa-container">
-                          <MapaEventoMejorado direccion={evento.ubicacion} />
+                          <MapaEvento direccion={evento.ubicacion} />
                         </div>
                       </div>
                     )}
