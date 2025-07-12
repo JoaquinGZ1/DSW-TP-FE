@@ -3,32 +3,18 @@ import './MapaEvento.css';
 
 const MapaEvento = ({ direccion, altura = '300px', ancho = '100%' }) => {
   const mapRef = useRef(null);
-  const mapInstance = useRef(null);
   const [status, setStatus] = useState('loading');
   const [error, setError] = useState(null);
-  const [coordinates, setCoordinates] = useState(null);
-  const [mapType, setMapType] = useState('loading'); // 'loading', 'leaflet', 'iframe', 'fallback'
 
   useEffect(() => {
     let isMounted = true;
 
     const initMap = async () => {
-      if (!direccion || !isMounted) return;
+      if (!direccion || !mapRef.current || !isMounted) return;
 
       try {
         setStatus('loading');
         setError(null);
-        setMapType('loading');
-
-        // Limpiar mapa anterior si existe
-        if (mapInstance.current) {
-          try {
-            mapInstance.current.remove();
-          } catch (e) {
-            console.warn('Error al limpiar mapa anterior:', e);
-          }
-          mapInstance.current = null;
-        }
 
         // Geocodificar la dirección
         console.log('🌍 Geocodificando:', direccion);
@@ -61,22 +47,14 @@ const MapaEvento = ({ direccion, altura = '300px', ancho = '100%' }) => {
           console.log('⚠️ Usando coordenadas por defecto');
         }
 
-        if (!isMounted) return;
-
-        // Guardar coordenadas para el iframe fallback
-        setCoordinates({ lat, lon, foundLocation });
+        if (!isMounted || !mapRef.current) return;
 
         // Intentar cargar Leaflet primero
         if (await loadLeaflet()) {
-          // Esperar un poco para asegurar que el DOM esté listo
-          setTimeout(() => {
-            if (isMounted) {
-              createLeafletMap(lat, lon, direccion, foundLocation);
-            }
-          }, 100);
+          await createLeafletMap(lat, lon, direccion, foundLocation);
         } else {
           // Fallback a iframe
-          setMapType('iframe');
+          createIframeMap(lat, lon, direccion);
         }
 
         setStatus('loaded');
@@ -85,7 +63,10 @@ const MapaEvento = ({ direccion, altura = '300px', ancho = '100%' }) => {
         console.error('❌ Error en mapa:', error);
         setError(error.message);
         setStatus('error');
-        setMapType('fallback');
+        
+        if (mapRef.current && isMounted) {
+          showFallback(direccion, error.message);
+        }
       }
     };
 
@@ -147,12 +128,15 @@ const MapaEvento = ({ direccion, altura = '300px', ancho = '100%' }) => {
       });
     };
 
-    const createLeafletMap = (lat, lon, direccion, foundLocation) => {
-      if (!window.L || !mapRef.current) return;
+    const createLeafletMap = async (lat, lon, direccion, foundLocation) => {
+      if (!window.L || !mapRef.current || !isMounted) return;
 
       try {
-        // Crear mapa - NO manipular innerHTML, dejar que React controle el DOM
-        mapInstance.current = window.L.map(mapRef.current, {
+        // Limpiar contenedor
+        mapRef.current.innerHTML = '';
+
+        // Crear mapa
+        const map = window.L.map(mapRef.current, {
           center: [lat, lon],
           zoom: foundLocation ? 15 : 13,
           zoomControl: true,
@@ -163,10 +147,10 @@ const MapaEvento = ({ direccion, altura = '300px', ancho = '100%' }) => {
         window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
           maxZoom: 19
-        }).addTo(mapInstance.current);
+        }).addTo(map);
 
         // Agregar marcador
-        const marker = window.L.marker([lat, lon]).addTo(mapInstance.current);
+        const marker = window.L.marker([lat, lon]).addTo(map);
         
         const popupContent = foundLocation 
           ? `📍 ${direccion}`
@@ -174,13 +158,44 @@ const MapaEvento = ({ direccion, altura = '300px', ancho = '100%' }) => {
           
         marker.bindPopup(popupContent).openPopup();
 
-        setMapType('leaflet');
         console.log('🗺️ Mapa Leaflet creado exitosamente');
 
       } catch (error) {
         console.error('Error creando mapa Leaflet:', error);
-        setMapType('iframe');
+        createIframeMap(lat, lon, direccion);
       }
+    };
+
+    const createIframeMap = (lat, lon, direccion) => {
+      if (!mapRef.current || !isMounted) return;
+
+      const bbox = `${lon-0.01},${lat-0.01},${lon+0.01},${lat+0.01}`;
+      const iframeSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lon}`;
+      
+      mapRef.current.innerHTML = `
+        <iframe
+          src="${iframeSrc}"
+          style="width: 100%; height: 100%; border: none; border-radius: 8px;"
+          title="Mapa de ${direccion}"
+          loading="lazy"
+        ></iframe>
+      `;
+      
+      console.log('🖼️ Mapa iframe creado');
+    };
+
+    const showFallback = (direccion, errorMsg) => {
+      if (!mapRef.current) return;
+      
+      mapRef.current.innerHTML = `
+        <div class="mapa-fallback">
+          <div class="mapa-fallback-content">
+            <h4>📍 Ubicación</h4>
+            <p>${direccion}</p>
+            <small>Mapa no disponible</small>
+          </div>
+        </div>
+      `;
     };
 
     // Inicializar
@@ -189,14 +204,6 @@ const MapaEvento = ({ direccion, altura = '300px', ancho = '100%' }) => {
     // Cleanup
     return () => {
       isMounted = false;
-      if (mapInstance.current) {
-        try {
-          mapInstance.current.remove();
-        } catch (e) {
-          console.warn('Error en cleanup:', e);
-        }
-        mapInstance.current = null;
-      }
     };
   }, [direccion]);
 
@@ -213,47 +220,6 @@ const MapaEvento = ({ direccion, altura = '300px', ancho = '100%' }) => {
     );
   }
 
-  const renderMapContent = () => {
-    if (mapType === 'loading') {
-      return (
-        <div className="mapa-loading">
-          <div className="mapa-spinner"></div>
-          <p>Cargando mapa...</p>
-        </div>
-      );
-    }
-
-    if (mapType === 'iframe' && coordinates) {
-      const { lat, lon } = coordinates;
-      const bbox = `${lon-0.01},${lat-0.01},${lon+0.01},${lat+0.01}`;
-      const iframeSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lon}`;
-      
-      return (
-        <iframe
-          src={iframeSrc}
-          style={{ width: '100%', height: '100%', border: 'none', borderRadius: '8px' }}
-          title={`Mapa de ${direccion}`}
-          loading="lazy"
-        />
-      );
-    }
-
-    if (mapType === 'fallback' || status === 'error') {
-      return (
-        <div className="mapa-fallback">
-          <div className="mapa-fallback-content">
-            <h4>📍 Ubicación</h4>
-            <p>{direccion}</p>
-            <small>{error ? `Error: ${error}` : 'Mapa no disponible'}</small>
-          </div>
-        </div>
-      );
-    }
-
-    // Para leaflet, el div debe estar vacío para que Leaflet lo maneje
-    return null;
-  };
-
   return (
     <div className="mapa-evento-container">
       <div 
@@ -261,7 +227,21 @@ const MapaEvento = ({ direccion, altura = '300px', ancho = '100%' }) => {
         className="mapa-evento"
         style={{ height: altura, width: ancho }}
       >
-        {renderMapContent()}
+        {status === 'loading' && (
+          <div className="mapa-loading">
+            <div className="mapa-spinner"></div>
+            <p>Cargando mapa...</p>
+          </div>
+        )}
+        {status === 'error' && (
+          <div className="mapa-fallback">
+            <div className="mapa-fallback-content">
+              <h4>📍 Ubicación</h4>
+              <p>{direccion}</p>
+              <small>Error: {error}</small>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

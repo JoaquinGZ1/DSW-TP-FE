@@ -14,7 +14,6 @@ function EventosOrganizador() {
   // Obtener el ID del organizador desde localStorage y verifica si existe
   const organizador = JSON.parse(localStorage.getItem('organizador'));
   const organizadorId = organizador?.id;
-  console.log('organizadorId:', organizadorId);
 
   useEffect(() => {
     // Si no hay organizadorId, redirigir a la página de inicio y salir del efecto
