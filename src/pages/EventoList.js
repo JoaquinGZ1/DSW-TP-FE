@@ -11,14 +11,39 @@ const EventosPage = () => {
   const [eventos, setEventos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
+  const [soloSeguidas, setSoloSeguidas] = useState(false); // Nuevo estado para filtrar solo seguidas
+  const [categoriasSeguidas, setCategoriasSeguidas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sortOrder, setSortOrder] = useState('asc'); // Estado para el orden de fecha
   const [eventoAbierto, setEventoAbierto] = useState(null); // Estado para el acordeón
   const [loadingEntrada, setLoadingEntrada] = useState({}); // Loading state para cada botón
 
+  // Obtener el usuario del localStorage
+  const getCurrentUser = () => {
+    const userData = localStorage.getItem('user');
+    return userData ? JSON.parse(userData) : null;
+  };
+
   useEffect(() => {
     fetchEventos();
+  }, []);
+
+  // Obtener categorías seguidas por el usuario
+  useEffect(() => {
+    const fetchCategoriasSeguidas = async () => {
+      const user = getCurrentUser();
+      if (!user) return;
+
+      try {
+        const response = await axios.get(`http://localhost:4000/api/usuarios/${user.id}/categorias-seguidas`);
+        setCategoriasSeguidas(response.data.data.map(cat => cat.id));
+      } catch (err) {
+        console.error('Error al obtener categorías seguidas:', err);
+      }
+    };
+
+    fetchCategoriasSeguidas();
   }, []);
 
   const fetchEventos = async () => {
@@ -89,10 +114,48 @@ const EventosPage = () => {
     sortEventosByDate(event.target.value);
   };
 
+  // Handler para el checkbox de categorías seguidas
+  const handleSoloSeguidasChange = (e) => {
+    const isChecked = e.target.checked;
+    setSoloSeguidas(isChecked);
+    
+    // Si se activa "Solo categorías seguidas", resetear filtro de categoría específica
+    if (isChecked) {
+      setCategoriaSeleccionada('');
+    }
+  };
+
+  // Handler para el select de categoría específica
+  const handleCategoriaChange = (e) => {
+    const selectedCategoria = e.target.value;
+    setCategoriaSeleccionada(selectedCategoria);
+    
+    // Si se selecciona una categoría específica, desactivar "Solo seguidas"
+    if (selectedCategoria !== '') {
+      setSoloSeguidas(false);
+    }
+  };
+
   // Función para filtrar eventos
-  const eventosFiltrados = categoriaSeleccionada
-    ? eventos.filter(evento => evento.eventoCategoria?.id === parseInt(categoriaSeleccionada))
-    : eventos;
+  const eventosFiltrados = () => {
+    let eventosFinal = eventos;
+
+    // Filtrar por categoría específica seleccionada
+    if (categoriaSeleccionada) {
+      eventosFinal = eventosFinal.filter(evento => 
+        evento.eventoCategoria?.id === parseInt(categoriaSeleccionada)
+      );
+    }
+
+    // Filtrar solo por categorías seguidas
+    if (soloSeguidas && categoriasSeguidas.length > 0) {
+      eventosFinal = eventosFinal.filter(evento => 
+        evento.eventoCategoria && categoriasSeguidas.includes(evento.eventoCategoria.id)
+      );
+    }
+
+    return eventosFinal;
+  };
 
   // Alternar la visibilidad del detalle del evento
   const toggleEvento = (id) => {
@@ -174,7 +237,7 @@ const EventosPage = () => {
           <select
             id="categoria"
             value={categoriaSeleccionada}
-            onChange={(e) => setCategoriaSeleccionada(e.target.value)}
+            onChange={handleCategoriaChange}
           >
             <option value="">Todas las categorías</option>
             {categorias.map(categoria => (
@@ -184,9 +247,22 @@ const EventosPage = () => {
             ))}
           </select>
         </div>
+
+        {getCurrentUser() && categoriasSeguidas.length > 0 && (
+          <div className="followed-categories-filter">
+            <label>
+              <input
+                type="checkbox"
+                checked={soloSeguidas}
+                onChange={handleSoloSeguidasChange}
+              />
+              <span>⭐ Solo categorías que sigo ({categoriasSeguidas.length})</span>
+            </label>
+          </div>
+        )}
       </div>
 
-      {eventosFiltrados.length === 0 ? (
+      {eventosFiltrados().length === 0 ? (
         <div className="no-eventos">
           <span className="emoji">🎭</span>
           <h3>No hay eventos disponibles</h3>
@@ -194,7 +270,7 @@ const EventosPage = () => {
         </div>
       ) : (
         <ul>
-          {eventosFiltrados.map(evento => {
+          {eventosFiltrados().map(evento => {
             const infoEvento = obtenerInfoEvento(evento);
             
             return (

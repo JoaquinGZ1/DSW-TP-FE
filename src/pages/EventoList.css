@@ -383,6 +383,39 @@ select {
   cursor: pointer;
 }
 
+/* Estilos para el filtro de categorías seguidas */
+.followed-categories-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #f9f9f9;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  transition: background-color 0.3s ease;
+}
+
+.followed-categories-filter:hover {
+  background-color: #f0f0f0;
+}
+
+.followed-categories-filter label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #555;
+  font-weight: normal;
+  margin: 0;
+  font-size: 14px;
+}
+
+.followed-categories-filter input[type="checkbox"] {
+  margin: 0;
+  transform: scale(1.1);
+  accent-color: #666;
+}
+
 /* Responsividad para las nuevas secciones */
 @media (max-width: 768px) {
   .evento-info-section,

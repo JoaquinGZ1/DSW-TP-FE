@@ -46,7 +46,7 @@ function UsuarioPage() {
           </div>
           <div className="profile-title">
             <h1 className="welcome-text">
-              <span className="wave-emoji">👋</span>
+              
               ¡Hola, {user.nickname}!
             </h1>
             <p className="profile-subtitle">Perfil de Usuario</p>
@@ -63,7 +63,7 @@ function UsuarioPage() {
           <div className="info-grid">
             <div className="info-item">
               <div className="info-label">
-                <span className="label-icon">✨</span>
+                
                 Nickname
               </div>
               <div className="info-value">{user.nickname || 'No especificado'}</div>
@@ -71,7 +71,7 @@ function UsuarioPage() {
 
             <div className="info-item">
               <div className="info-label">
-                <span className="label-icon">📧</span>
+                
                 Correo Electrónico
               </div>
               <div className="info-value">{user.mail || 'No especificado'}</div>
@@ -79,7 +79,7 @@ function UsuarioPage() {
 
             <div className="info-item">
               <div className="info-label">
-                <span className="label-icon">🆔</span>
+                
                 DNI
               </div>
               <div className="info-value">{user.DNI || 'No especificado'}</div>
@@ -87,7 +87,7 @@ function UsuarioPage() {
 
             <div className="info-item full-width">
               <div className="info-label">
-                <span className="label-icon">📝</span>
+                
                 Descripción
               </div>
               <div className="info-value description">
@@ -110,10 +110,7 @@ function UsuarioPage() {
           </button>
         </div>
 
-        {/* Footer decorativo */}
-        <div className="profile-footer">
-          <p className="footer-text">¡Gracias por ser parte de nuestra comunidad! 🎉</p>
-        </div>
+        
       </div>
     </div>
   );

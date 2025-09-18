@@ -46,7 +46,7 @@ function OrganizadorPage() {
           </div>
           <div className="profile-organizador-title">
             <h1 className="welcome-organizador-text">
-              <span className="rocket-emoji">🚀</span>
+              
               ¡Hola, {organizador.nickname}!
             </h1>
             <p className="profile-organizador-subtitle">Perfil de Organizador</p>
@@ -63,7 +63,7 @@ function OrganizadorPage() {
           <div className="info-organizador-grid">
             <div className="info-organizador-item">
               <div className="info-organizador-label">
-                <span className="label-organizador-icon">✨</span>
+                
                 Nombre de la Organización
               </div>
               <div className="info-organizador-value">{organizador.nickname || 'No especificado'}</div>
@@ -71,7 +71,7 @@ function OrganizadorPage() {
 
             <div className="info-organizador-item">
               <div className="info-organizador-label">
-                <span className="label-organizador-icon">📧</span>
+                
                 Correo Electrónico
               </div>
               <div className="info-organizador-value">{organizador.mail || 'No especificado'}</div>
@@ -79,7 +79,7 @@ function OrganizadorPage() {
 
             <div className="info-organizador-item">
               <div className="info-organizador-label">
-                <span className="label-organizador-icon">🏛️</span>
+                
                 CUIT
               </div>
               <div className="info-organizador-value">{organizador.CUIT || 'No especificado'}</div>
@@ -87,7 +87,7 @@ function OrganizadorPage() {
 
             <div className="info-organizador-item full-width-organizador">
               <div className="info-organizador-label">
-                <span className="label-organizador-icon">📝</span>
+                
                 Descripción de la Organización
               </div>
               <div className="info-organizador-value description-organizador">
@@ -110,10 +110,7 @@ function OrganizadorPage() {
           </button>
         </div>
 
-        {/* Footer decorativo */}
-        <div className="profile-organizador-footer">
-          <p className="footer-organizador-text">¡Crea eventos increíbles y conecta con tu audiencia! 🎭</p>
-        </div>
+        
       </div>
     </div>
   );
