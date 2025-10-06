@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  eslint-plugin-react: ^7.33.0
+
 importers:
 
   .:
@@ -47,6 +50,10 @@ importers:
       web-vitals:
         specifier: ^2.1.4
         version: 2.1.4
+    devDependencies:
+      eslint-plugin-react:
+        specifier: ^7.33.0
+        version: 7.37.2(eslint@8.57.1)
 
 packages:
 

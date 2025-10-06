@@ -1,61 +1,116 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './UsuarioPage.css';
-import { useNavigate } from 'react-router-dom'
 
 function UsuarioPage() {
-  const [user, setUser] = useState(null); // Estado para guardar el usuario logueado
-  const navigate = useNavigate(); // Usar el hook useNavigate
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Obtener la información del usuario logueado del localStorage
     const userData = JSON.parse(localStorage.getItem('user'));
     if (userData) {
-      setUser(userData); // Almacenar los datos del usuario en el estado
+      setUser(userData);
     }
   }, []);
 
   const handleEditProfile = () => {
-    navigate('/edit-usuario');
+    navigate('/modificar-Usuario');
   };
 
   const handleLogout = () => {
-    // Eliminar los datos del usuario y el token del localStorage
     localStorage.removeItem('user');
     localStorage.removeItem('Token');
-    localStorage.removeItem('role'); // Opcional, si también deseas eliminar el rol
-    window.location.reload() // recargar la página para actualizar el estado de autenticación
-
-    // Redirigir al login o página de selección de login
-    navigate("/seleccion-login");
+    localStorage.removeItem('role');
+    window.location.reload();
+    navigate("/login");
   };
 
   if (!user) {
-  console.log('Cargando datos del usuario...'); // Indicar que aún no hay datos
-  return <div>Cargando...</div>;
-}
-
-console.log('Usuario listo para renderizar:', user); // Verificar contenido final
-  return (
-    <div className="usuario-page">
-      <h2>Perfil de Usuario</h2>
-      {/* Mostrar los datos del usuario logueado */}
-      <div className="user-info">
-        <p><strong>Nickname:</strong> {user.nickname}</p>
-        <p><strong>Email:</strong> {user.mail}</p>
-        <p><strong>DNI:</strong> {user.DNI}</p>
-        <p><strong>Descripción:</strong> {user.description}</p>
+    return (
+      <div className="profile-container">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p className="loading-text">Cargando perfil...</p>
+        </div>
       </div>
+    );
+  }
 
-      <div className="event-buttons">
-        {/* Botón para editar el perfil */}
-        <button onClick={handleEditProfile} className="edit-profile-button">
-          Modificar Información
-        </button>
+  return (
+    <div className="profile-container">
+      <div className="profile-card">
+        {/* Header del perfil */}
+        <div className="profile-header">
+          <div className="profile-avatar">
+            <span className="avatar-icon">👤</span>
+          </div>
+          <div className="profile-title">
+            <h1 className="welcome-text">
+              
+              ¡Hola, {user.nickname}!
+            </h1>
+            <p className="profile-subtitle">Perfil de Usuario</p>
+          </div>
+        </div>
 
-        {/* Botón de Logout */}
-        <button onClick={handleLogout} className="logout-button">
-          Cerrar sesión
-        </button>
+        {/* Información del usuario */}
+        <div className="profile-info">
+          <h3 className="info-section-title">
+            <span className="section-icon">📋</span>
+            Información Personal
+          </h3>
+          
+          <div className="info-grid">
+            <div className="info-item">
+              <div className="info-label">
+                
+                Nickname
+              </div>
+              <div className="info-value">{user.nickname || 'No especificado'}</div>
+            </div>
+
+            <div className="info-item">
+              <div className="info-label">
+                
+                Correo Electrónico
+              </div>
+              <div className="info-value">{user.mail || 'No especificado'}</div>
+            </div>
+
+            <div className="info-item">
+              <div className="info-label">
+                
+                DNI
+              </div>
+              <div className="info-value">{user.DNI || 'No especificado'}</div>
+            </div>
+
+            <div className="info-item full-width">
+              <div className="info-label">
+                
+                Descripción
+              </div>
+              <div className="info-value description">
+                {user.description || 'Sin descripción agregada'}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Acciones del perfil */}
+        <div className="profile-actions">
+          <button onClick={handleEditProfile} className="action-button primary">
+            <span className="button-icon">✏️</span>
+            Modificar Información
+          </button>
+
+          <button onClick={handleLogout} className="action-button secondary">
+            <span className="button-icon">🚪</span>
+            Cerrar Sesión
+          </button>
+        </div>
+
+        
       </div>
     </div>
   );

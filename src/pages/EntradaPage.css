@@ -1,3 +1,4 @@
+/* Estilos específicos para la página de entradas */
 .entrada-page {
   padding: 20px;
 }
@@ -28,4 +29,465 @@
 .event-button:hover {
   background-color: #0056b3;
   /* Color al pasar el mouse */
+}
+
+/* Mejoras específicas para las tarjetas de entrada */
+.evento-card .entrada-status {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+.entrada-status.comprada {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.entrada-status.pendiente {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+.entrada-status.cancelada {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Estilo para el código de entrada (reemplazado por entrada-id) */
+.codigo-entrada {
+  background-color: #e9ecef;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  color: #495057;
+  display: inline-block;
+  margin-left: 8px;
+  border: 1px solid #ced4da;
+}
+
+/* Nuevo estilo para el ID de entrada - más atractivo */
+.entrada-id {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: inline-block;
+  margin-left: 8px;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+}
+
+/* Mejora para el placeholder de entrada */
+.entrada-placeholder {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Estilo para fechas importantes */
+.fecha-destacada {
+  background-color: #f8f9fa;
+  padding: 8px 12px;
+  border-left: 4px solid #007bff;
+  margin: 8px 0;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Mejora para información del evento en entradas */
+.evento-info-entrada {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 10px 0;
+  border-left: 4px solid #28a745;
+}
+
+/* Estilo para cuando no hay entradas */
+.no-entradas {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6c757d;
+}
+
+.no-entradas h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #495057;
+}
+
+.no-entradas p {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.no-entradas .emoji {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  display: block;
+}
+
+/* Mejoras para el mapa en entradas */
+.entrada-mapa-container {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.entrada-mapa-container p {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #495057;
+}
+
+/* Animación suave para abrir/cerrar detalles */
+.evento-details {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover effect mejorado para entradas */
+.evento-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Estilo para información importante */
+.info-destacada {
+  background-color: #e7f3ff;
+  border: 1px solid #b3d7ff;
+  border-radius: 6px;
+  padding: 10px;
+  margin: 8px 0;
+}
+
+/* Responsividad específica para entradas */
+@media (max-width: 768px) {
+  .codigo-entrada,
+  .entrada-id {
+    font-size: 0.8rem;
+    padding: 6px 8px;
+  }
+  
+  .fecha-destacada {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .no-entradas {
+    padding: 40px 15px;
+  }
+  
+  .no-entradas .emoji {
+    font-size: 2.5rem;
+  }
+  
+  .no-entradas h3 {
+    font-size: 1.3rem;
+  }
+  
+  /* Mejora para texto legible en dispositivos pequeños */
+  .codigo-entrada,
+  .entrada-id {
+    display: block;
+    margin: 5px 0;
+    text-align: center;
+    font-size: 0.8rem;
+  }
+  
+  .entrada-status {
+    display: block !important;
+    margin: 5px 0 !important;
+    text-align: center;
+  }
+  
+  .info-destacada p {
+    margin-bottom: 10px;
+  }
+}
+
+/* Mejoras adicionales para la página de entradas */
+
+/* Override del hover para entradas */
+.evento-list-container .evento-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Estilo especial para el título de entradas */
+.evento-list-container h1 {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Cursor pointer para las tarjetas de entrada */
+.evento-card .evento-header {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.evento-card .evento-header:hover {
+  background-color: rgba(102, 126, 234, 0.05);
+  border-radius: 8px;
+}
+
+/* Estilo para la información de estado activo */
+.entrada-activa {
+  position: relative;
+}
+
+.entrada-activa::before {
+  content: '🟢';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 12px;
+}
+
+/* Mejora para la imagen con gradiente */
+.entrada-placeholder {
+  position: relative;
+  overflow: hidden;
+}
+
+.entrada-placeholder::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, 
+    rgba(255,255,255,0.1) 25%, 
+    transparent 25%, 
+    transparent 75%, 
+    rgba(255,255,255,0.1) 75%);
+  background-size: 20px 20px;
+  animation: move 2s linear infinite;
+}
+
+@keyframes move {
+  0% { background-position: 0 0; }
+  100% { background-position: 20px 20px; }
+}
+
+/* Indicador visual para entradas expandidas */
+.evento-card[data-expanded="true"] .evento-header {
+  background-color: rgba(102, 126, 234, 0.08);
+  border-radius: 8px 8px 0 0;
+}
+
+/* Mejoras específicas para la información reorganizada */
+.entrada-info-section {
+  border-left: 3px solid #007bff;
+  padding-left: 15px;
+  margin: 15px 0;
+  background-color: #f8f9fa;
+  border-radius: 0 8px 8px 0;
+}
+
+.entrada-info-section h4 {
+  margin: 0 0 10px 0;
+  color: #495057;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Estilo para el ID de entrada - actualizado */
+.entrada-id {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: inline-block;
+  margin-left: 8px;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+}
+
+/* Mejora para la sección de ubicación */
+.entrada-ubicacion-section {
+  background-color: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+}
+
+.entrada-ubicacion-section p {
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: #495057;
+}
+
+/* Estilo para cuando no hay ubicación */
+.sin-ubicacion {
+  color: #6c757d;
+  font-style: italic;
+  text-align: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px dashed #dee2e6;
+}
+
+/* Mejora para la información del evento */
+.evento-info-entrada {
+  background: linear-gradient(135deg, #e8f5e8, #f0f8f0);
+  border: 1px solid #c3e6cb;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+}
+
+.evento-info-entrada p {
+  margin-bottom: 8px;
+  color: #155724;
+}
+
+.evento-info-entrada p strong {
+  color: #0d4521;
+}
+
+/* Estilo para acciones de entrada */
+.evento-actions {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #e9ecef;
+  text-align: center;
+}
+
+.btn-eliminar-entrada {
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+}
+
+.btn-eliminar-entrada:hover {
+  background: linear-gradient(135deg, #c82333, #a02622);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4);
+}
+
+.btn-eliminar-entrada:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+}
+
+.btn-eliminar-entrada:disabled {
+  background: linear-gradient(135deg, #6c757d, #5a6268);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 4px rgba(108, 117, 125, 0.3);
+}
+
+.btn-eliminar-entrada:disabled:hover {
+  background: linear-gradient(135deg, #6c757d, #5a6268);
+  transform: none;
+  box-shadow: 0 2px 4px rgba(108, 117, 125, 0.3);
+}
+
+/* Responsividad para el botón */
+@media (max-width: 480px) {
+  .btn-eliminar-entrada {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+  }
+}
+
+/* Responsividad para la nueva estructura */
+@media (max-width: 768px) {
+  .entrada-id {
+    display: block;
+    margin: 5px 0;
+    text-align: center;
+    font-size: 0.8rem;
+  }
+  
+  .entrada-ubicacion-section {
+    padding: 10px;
+  }
+  
+  .evento-info-entrada {
+    padding: 10px;
+  }
+}
+
+/* Estilos para el estado de la entrada */
+.estado-entrada {
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin: 8px 0;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.estado-entrada.activa {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.estado-entrada.expirada {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Responsividad para el estado de entrada */
+@media (max-width: 768px) {
+  .estado-entrada {
+    display: block !important;
+    margin: 5px 0 !important;
+    text-align: center;
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .estado-entrada {
+    font-size: 0.85rem;
+    padding: 5px 8px;
+  }
 }

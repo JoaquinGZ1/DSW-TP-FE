@@ -44,12 +44,22 @@ function ModificarUsuarioPage() {
 
       // Mostrar mensaje de éxito
       alert('Perfil actualizado correctamente');
+      
+      // Cerrar sesión: eliminar datos del localStorage
+      localStorage.removeItem('user');
+      localStorage.removeItem('Token');
+      localStorage.removeItem('role');
+      
+      // Refrescar página y redirigir al login
+      setTimeout(() => {
+        window.location.reload();
+        navigate('/login');
+      }, 1000);
+
     } catch (error) {
       console.error('Error al actualizar el perfil:', error);
       alert('Hubo un error al actualizar el perfil');
     }
-    localStorage.removeItem('Token');
-    navigate("/login-usuario")
   };
 
   if (!user) {
