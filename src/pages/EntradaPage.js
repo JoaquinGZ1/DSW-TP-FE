@@ -176,7 +176,7 @@ const EntradaPage = () => {
                     </div>
                     
                     <div className="info-destacada">
-                      <strong>🛒 Comprada el:</strong> {formatearFechaCompra(entrada.date)}
+                      <strong>🛒 Comprada el:</strong> {formatearFechaCompra(entrada.fechaCompra || entrada.createdAt)}
                     </div>
                   </div>
                 </div>
