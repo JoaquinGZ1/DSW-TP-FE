@@ -1,6 +1,7 @@
 # 🚀 GUÍA: Configurar Variables de Entorno en Vercel
 
 ## ⚠️ PROBLEMA ACTUAL
+
 Tu aplicación en producción está haciendo peticiones a `localhost:4000` en lugar de usar Railway.
 
 ---
@@ -43,7 +44,8 @@ Haz clic en **"Add New"** y configura:
 └──────────────────────────────────────────────────────────┘
 ```
 
-**⚠️ IMPORTANTE:** 
+**⚠️ IMPORTANTE:**
+
 - Marca **SOLO** "Production" ✅
 - La variable debe llamarse exactamente `REACT_APP_API_URL`
 - La URL NO debe terminar con `/` (sin barra al final)
@@ -73,6 +75,7 @@ Una vez que el deployment termine:
 1. Abre tu sitio de Vercel
 2. En la parte **inferior** de la página verás una barra de diagnóstico
 3. Verifica que muestre:
+
    ```
    NODE_ENV: production
    REACT_APP_API_URL: https://dsw-tp-be-production.up.railway.app
@@ -84,6 +87,7 @@ Una vez que el deployment termine:
    - Debe mostrar: ✅ Conexión exitosa
 
 **⚠️ Si ves:**
+
 - `config.apiUrl` en **rojo** con `localhost:4000`
 - Una alerta roja: "ERROR: En producción pero usando localhost"
 
@@ -95,6 +99,7 @@ Una vez que el deployment termine:
 2. Presiona `F12` para abrir DevTools
 3. Ve a la pestaña **"Console"**
 4. Busca los logs:
+
    ```
    🔧 Entorno: production
    🌐 API URL: https://dsw-tp-be-production.up.railway.app
@@ -116,14 +121,17 @@ Una vez que el deployment termine:
 **Causas posibles:**
 
 1. **Cache del navegador**
+
    - **Solución:** Hard refresh (`Ctrl + Shift + R` en Windows)
    - O abre en modo incógnito
 
 2. **Variable mal escrita**
+
    - **Verifica:** Debe ser exactamente `REACT_APP_API_URL` (con guiones bajos)
    - No usar espacios ni mayúsculas/minúsculas incorrectas
 
 3. **No se hizo redeploy sin cache**
+
    - **Solución:** Hacer redeploy nuevamente y **desmarcar** "Use existing Build Cache"
 
 4. **La variable no está marcada para Production**
