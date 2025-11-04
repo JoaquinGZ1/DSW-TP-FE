@@ -1,7 +1,7 @@
 // src/config.js - Configuración centralizada de la API
 
 // Hardcoded para producción (temporal)
-const API_URL = 'https://dsw-tp-be-production.up.railway.app';
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const config = {
   apiUrl: API_URL,
