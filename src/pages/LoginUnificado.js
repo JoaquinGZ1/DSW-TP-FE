@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './LoginUnificado.css';
+import config from '../config';
 
 function LoginUnificado({ setIsAuthenticated }) {
   const [userType, setUserType] = useState('usuario'); // 'usuario' o 'organizador'
@@ -23,7 +24,7 @@ function LoginUnificado({ setIsAuthenticated }) {
       let endpoint;
       
       if (userType === 'usuario') {
-        endpoint = 'http://localhost:4000/api/usuarios/login';
+        endpoint = `${config.apiUrl}/api/usuarios/login`;
         response = await axios.post(endpoint, { mail, password });
         
         // Guardar datos del usuario
@@ -35,7 +36,7 @@ function LoginUnificado({ setIsAuthenticated }) {
         setSuccess(`¡Bienvenido, ${response.data.usuario.nickname}!`);
         
       } else {
-        endpoint = 'http://localhost:4000/api/organizadores/login';
+        endpoint = `${config.apiUrl}/api/organizadores/login`;
         response = await axios.post(endpoint, { mail, password });
         
         // Guardar datos del organizador
@@ -101,6 +102,7 @@ function LoginUnificado({ setIsAuthenticated }) {
 
         {/* Formulario de login */}
         <form onSubmit={handleSubmit} className="login-form">
+          console.log("API_URL en producción:", API_URL);
           <div className="form-group">
             <label className="form-label">
               <span className="label-icon">📧</span>
