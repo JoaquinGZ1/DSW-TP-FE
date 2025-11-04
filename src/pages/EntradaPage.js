@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import MapaEvento from '../components/MapaEvento';
+import { getImageUrl } from '../utils/imageUtils';
 import './EntradaPage.css';
 import config from '../config';
 
@@ -101,7 +102,7 @@ const EntradaPage = () => {
       organizador: entrada.evento?.organizador?.nickname || 'No disponible',
       ubicacion: entrada.evento?.ubicacion || 'Sin ubicación',
       fechaEvento: entrada.evento?.date || null,
-      foto: entrada.evento?.photo ? `${config.apiUrl}/${entrada.evento.photo}` : null
+      foto: getImageUrl(entrada.evento?.photo)
     };
   };
 
