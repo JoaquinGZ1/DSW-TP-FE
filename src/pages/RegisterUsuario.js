@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './RegisterUsuario.css';
+import config from '../config';
 
 function RegisterUsuario() {
   const [nickname, setNickname] = useState('');
@@ -20,7 +21,7 @@ function RegisterUsuario() {
 
     try {
       // Enviamos los datos del formulario al backend
-      const response = await axios.post('http://localhost:4000/api/usuarios/register', {
+      const response = await axios.post(`${config.apiUrl}/api/usuarios/register`, {
         nickname,
         mail,
         password,

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './ModificarUsuarioPage.css';
+import config from '../config';
 
 function ModificarUsuarioPage() {
   const [user, setUser] = useState(null);
@@ -30,7 +31,7 @@ function ModificarUsuarioPage() {
 
     try {
       // Aquí realizamos la llamada a la API para actualizar los datos del usuario
-      const response = await axios.put(`http://localhost:4000/api/usuarios/update/${user.id}`, {
+      const response = await axios.put(`${config.apiUrl}/api/usuarios/update/${user.id}`, {
         nickname,
         mail,
         DNI,
@@ -77,7 +78,7 @@ function ModificarUsuarioPage() {
 
     try {
       await axios.post(
-        `http://localhost:4000/api/usuarios/${user.id}/delete-account`,
+        `${config.apiUrl}/api/usuarios/${user.id}/delete-account`,
         { confirmacion },
         {
           headers: {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import config from '../config';
 
 const CategoriaSelect = ({ onSelect }) => {
   const [categorias, setCategorias] = useState([]);
@@ -12,7 +13,7 @@ const CategoriaSelect = ({ onSelect }) => {
 
   const fetchCategorias = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/api/categorias');
+      const response = await axios.get(`${config.apiUrl}/api/categorias`);
       setCategorias(response.data.data || []);
     } catch (error) {
       console.error('Error al cargar categorías:', error);

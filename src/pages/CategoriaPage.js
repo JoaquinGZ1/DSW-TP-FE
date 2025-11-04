@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './CategoriaPage.css';  // Asegúrate de que la ruta sea correcta
+import config from '../config';
 
 function CategoriaPage() {
   const [categorias, setCategorias] = useState([]);
@@ -21,7 +22,7 @@ function CategoriaPage() {
     const fetchCategorias = async () => {
       try {
         // Solicitar todas las categorías desde el backend
-        const response = await axios.get('http://localhost:4000/api/categorias');
+        const response = await axios.get(`${config.apiUrl}/api/categorias`);
         setCategorias(response.data.data); // Guardar las categorías en el estado
       } catch (err) {
         setError('Hubo un error al cargar las categorías');
@@ -39,7 +40,7 @@ function CategoriaPage() {
       if (!user) return;
 
       try {
-        const response = await axios.get(`http://localhost:4000/api/usuarios/${user.id}/categorias-seguidas`);
+        const response = await axios.get(`${config.apiUrl}/api/usuarios/${user.id}/categorias-seguidas`);
         setCategoriasSeguidas(response.data.data.map(cat => cat.id));
       } catch (err) {
         console.error('Error al obtener categorías seguidas:', err);
@@ -63,7 +64,7 @@ function CategoriaPage() {
       const esSeguida = categoriasSeguidas.includes(categoriaId);
       const endpoint = esSeguida ? 'unfollow-categoria' : 'follow-categoria';
       
-      await axios.post(`http://localhost:4000/api/usuarios/${user.id}/${endpoint}`, {
+      await axios.post(`${config.apiUrl}/api/usuarios/${user.id}/${endpoint}`, {
         categoriaId: categoriaId
       });
 

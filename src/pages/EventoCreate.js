@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';  // Asegúrate de tener axios instalado: `npm install axios`
 import CategoriaSelect from '../components/CategoriaSelect';
 import './EventoCreate.css';
+import config from '../config';
 
 const EventoCreate = () => {
   const [name, setName] = useState('');
@@ -50,7 +51,7 @@ const EventoCreate = () => {
       formData.forEach((value, key) => {
         console.log(`${key}: ${value}`);
       });
-      const response = await axios.post('http://localhost:4000/api/eventos', formData, {
+      const response = await axios.post(`${config.apiUrl}/api/eventos`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',  // Importante para enviar FormData
         },

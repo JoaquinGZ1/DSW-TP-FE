@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './RegisterOrganizador.css';
+import config from '../config';
 
 function RegisterOrganizador() {
   const [CUIT, setCUIT] = useState('');
@@ -28,7 +29,7 @@ function RegisterOrganizador() {
 
     try {
       // Enviar los datos del formulario al backend
-      const response = await axios.post('http://localhost:4000/api/organizadores/register', formData);
+      const response = await axios.post(`${config.apiUrl}/api/organizadores/register`, formData);
 
       // Si el registro es exitoso, mostramos un mensaje y redirigimos al login
       setSuccess(`Registro exitoso. Bienvenido, ${response.data.data.nickname}`);

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import MapaEvento from '../components/MapaEvento';
 import './EventosOrganizador.css';
+import config from '../config';
 
 function EventosOrganizador() {
   const [eventos, setEventos] = useState([]); // Almacenamos los eventos
@@ -25,7 +26,7 @@ function EventosOrganizador() {
     // Función para obtener los eventos del organizador
     const fetchEventos = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/api/organizadores/${organizadorId}/eventos`);
+        const response = await axios.get(`${config.apiUrl}/api/organizadores/${organizadorId}/eventos`);
         console.log('Respuesta de eventos:', response.data); // Verifica la respuesta
 
         // Asumiendo que los eventos están dentro de response.data.data
@@ -133,7 +134,7 @@ function EventosOrganizador() {
       
       try {
         console.log('Intentando eliminar evento...');
-        const response = await axios.delete(`http://localhost:4000/api/eventos/${eventoId}`);
+        const response = await axios.delete(`${config.apiUrl}/api/eventos/${eventoId}`);
         console.log('Respuesta del servidor:', response);
         
         // Actualizar la lista local eliminando el evento
@@ -192,7 +193,7 @@ function EventosOrganizador() {
                   <div className="evento-image-area">
                     {evento.photo ? (
                       <img 
-                        src={`http://localhost:4000/${evento.photo}`} 
+                        src={`${config.apiUrl}/${evento.photo}`} 
                         alt={evento.name || 'Evento'}
                         className="evento-image"
                         onLoad={() => {
@@ -200,7 +201,7 @@ function EventosOrganizador() {
                         }}
                         onError={(e) => {
                           console.log('Error cargando imagen:', evento.photo);
-                          console.log('URL completa:', `http://localhost:4000/${evento.photo}`);
+                          console.log('URL completa:', `${config.apiUrl}/${evento.photo}`);
                           e.target.style.display = 'none';
                           e.target.nextSibling.style.display = 'flex';
                         }}

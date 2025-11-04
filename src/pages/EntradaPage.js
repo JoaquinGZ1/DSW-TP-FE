@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import MapaEvento from '../components/MapaEvento';
 import './EntradaPage.css';
+import config from '../config';
 
 const EntradaPage = () => {
   const [entradas, setEntradas] = useState([]);
@@ -24,7 +25,7 @@ const EntradaPage = () => {
         return;
       }
 
-      const response = await axios.get(`http://localhost:4000/api/usuarios/${usuario.id}/entradas`);
+      const response = await axios.get(`${config.apiUrl}/api/usuarios/${usuario.id}/entradas`);
       setEntradas(response.data.data);
     } catch (error) {
       console.error("Error al obtener entradas:", error);
@@ -50,7 +51,7 @@ const EntradaPage = () => {
     try {
       setLoadingEliminar(prev => ({ ...prev, [entradaId]: true }));
       
-      await axios.delete(`http://localhost:4000/api/entrada/${entradaId}`);
+      await axios.delete(`${config.apiUrl}/api/entrada/${entradaId}`);
       
       // Actualizar la lista de entradas eliminando la entrada borrada
       setEntradas(prev => prev.filter(entrada => entrada.id !== entradaId));
@@ -100,7 +101,7 @@ const EntradaPage = () => {
       organizador: entrada.evento?.organizador?.nickname || 'No disponible',
       ubicacion: entrada.evento?.ubicacion || 'Sin ubicación',
       fechaEvento: entrada.evento?.date || null,
-      foto: entrada.evento?.photo ? `http://localhost:4000/${entrada.evento.photo}` : null
+      foto: entrada.evento?.photo ? `${config.apiUrl}/${entrada.evento.photo}` : null
     };
   };
 

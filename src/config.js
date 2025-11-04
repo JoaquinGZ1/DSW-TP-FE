@@ -1,7 +1,10 @@
 // src/config.js - Configuración centralizada de la API
 
-// Hardcoded para producción (temporal)
-const API_URL = process.env.REACT_APP_API_URL;
+// Detectar automáticamente: producción usa Railway, desarrollo usa localhost
+const API_URL = process.env.REACT_APP_API_URL || 
+  (process.env.NODE_ENV === 'production' 
+    ? 'https://dsw-tp-be-production.up.railway.app' 
+    : 'http://localhost:4000');
 
 export const config = {
   apiUrl: API_URL,

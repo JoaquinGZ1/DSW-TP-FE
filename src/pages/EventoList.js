@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import MapaEvento from '../components/MapaEvento';
 import './EventoList.css';
+import config from '../config';
 
 
 
@@ -36,7 +37,7 @@ const EventosPage = () => {
       if (!user) return;
 
       try {
-        const response = await axios.get(`http://localhost:4000/api/usuarios/${user.id}/categorias-seguidas`);
+        const response = await axios.get(`${config.apiUrl}/api/usuarios/${user.id}/categorias-seguidas`);
         setCategoriasSeguidas(response.data.data.map(cat => cat.id));
       } catch (err) {
         console.error('Error al obtener categorías seguidas:', err);
@@ -50,8 +51,8 @@ const EventosPage = () => {
     try {
       setLoading(true);
       const [eventosRes, categoriasRes] = await Promise.all([
-        axios.get('http://localhost:4000/api/eventos'),
-        axios.get('http://localhost:4000/api/categorias')
+        axios.get(`${config.apiUrl}/api/eventos`),
+        axios.get(`${config.apiUrl}/api/categorias`)
       ]);
       setEventos(eventosRes.data.data);
       setCategorias(categoriasRes.data.data);
@@ -80,7 +81,7 @@ const EventosPage = () => {
       console.log('Usuario al obtener entrada:', usuario);
       console.log('Datos que se van a enviar:', entradaData);
 
-      await axios.post('http://localhost:4000/api/entrada', entradaData);
+      await axios.post(`${config.apiUrl}/api/entrada`, entradaData);
 
       alert('¡Entrada obtenida con éxito! 🎉');
       
@@ -207,7 +208,7 @@ const EventosPage = () => {
       organizador: evento.organizador?.nickname || 'No disponible',
       ubicacion: evento.ubicacion || 'Sin ubicación',
       fecha: evento.date || null,
-      foto: evento.photo ? `http://localhost:4000/${evento.photo}` : null,
+      foto: evento.photo ? `${config.apiUrl}/${evento.photo}` : null,
       estado: estadoEvento
     };
   };

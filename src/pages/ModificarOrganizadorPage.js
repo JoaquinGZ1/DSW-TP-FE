@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './ModificarOrganizadorPage.css';
+import config from '../config';
 
 function ModificarOrganizadorPage() {
   const [organizador, setOrganizador] = useState(null);
@@ -36,7 +37,7 @@ function ModificarOrganizadorPage() {
 
     try {
       // Enviar CUIT como string, no como entero (según la entidad del backend)
-      const response = await axios.put(`http://localhost:4000/api/organizadores/update/${organizador.id}`, {
+      const response = await axios.put(`${config.apiUrl}/api/organizadores/update/${organizador.id}`, {
         nickname,
         mail,
         CUIT: CUIT, // Mantener como string
@@ -96,7 +97,7 @@ function ModificarOrganizadorPage() {
 
     try {
       const response = await axios.post(
-        `http://localhost:4000/api/organizadores/${organizador.id}/delete-account`,
+        `${config.apiUrl}/api/organizadores/${organizador.id}/delete-account`,
         { confirmacion },
         {
           headers: {
