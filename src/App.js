@@ -14,7 +14,6 @@ import ModificarOrganizadorPage from './pages/ModificarOrganizadorPage.js'; // E
 import NavbarLogin from './components/NavbarLogin.js';
 import EventosOrganizador from './pages/EventosOrganizador.js';
 import CategoriaPage from './pages/CategoriaPage.js'
-import DiagnosticoAPI from './components/DiagnosticoAPI.js';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => !!localStorage.getItem('Token'));
@@ -29,7 +28,6 @@ function App() {
   return (
     <Router>
       {isAuthenticated ? <Navbar /> : <NavbarLogin />}
-      <DiagnosticoAPI />
       <div className="main-content">
         <Routes>
           {/* Si está autenticado, muestra las rutas principales */}
