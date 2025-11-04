@@ -24,29 +24,29 @@ He revisado **TODOS** los archivos del proyecto frontend y confirmado que:
 
 ### Páginas (src/pages/)
 
-| # | Archivo | Llamadas HTTP | config.apiUrl | Estado |
-|---|---------|---------------|---------------|--------|
-| 1 | LoginUnificado.js | ✅ | ✅ | ✅ CORRECTO |
-| 2 | RegisterUsuario.js | ✅ | ✅ | ✅ CORRECTO |
-| 3 | RegisterOrganizador.js | ✅ | ✅ | ✅ CORRECTO |
-| 4 | EventoCreate.js | ✅ | ✅ | ✅ CORRECTO |
-| 5 | EventoList.js | ✅ | ✅ | ✅ CORRECTO |
-| 6 | EventosOrganizador.js | ✅ | ✅ | ✅ CORRECTO |
-| 7 | EntradaPage.js | ✅ | ✅ | ✅ CORRECTO |
-| 8 | CategoriaPage.js | ✅ | ✅ | ✅ CORRECTO |
-| 9 | ModificarUsuarioPage.js | ✅ | ✅ | ✅ CORRECTO |
-| 10 | ModificarOrganizadorPage.js | ✅ | ✅ | ✅ CORRECTO |
-| 11 | UsuarioPage.js | - | - | ℹ️ Sin HTTP |
-| 12 | OrganizadorPage.js | - | - | ℹ️ Sin HTTP |
+| #   | Archivo                     | Llamadas HTTP | config.apiUrl | Estado      |
+| --- | --------------------------- | ------------- | ------------- | ----------- |
+| 1   | LoginUnificado.js           | ✅            | ✅            | ✅ CORRECTO |
+| 2   | RegisterUsuario.js          | ✅            | ✅            | ✅ CORRECTO |
+| 3   | RegisterOrganizador.js      | ✅            | ✅            | ✅ CORRECTO |
+| 4   | EventoCreate.js             | ✅            | ✅            | ✅ CORRECTO |
+| 5   | EventoList.js               | ✅            | ✅            | ✅ CORRECTO |
+| 6   | EventosOrganizador.js       | ✅            | ✅            | ✅ CORRECTO |
+| 7   | EntradaPage.js              | ✅            | ✅            | ✅ CORRECTO |
+| 8   | CategoriaPage.js            | ✅            | ✅            | ✅ CORRECTO |
+| 9   | ModificarUsuarioPage.js     | ✅            | ✅            | ✅ CORRECTO |
+| 10  | ModificarOrganizadorPage.js | ✅            | ✅            | ✅ CORRECTO |
+| 11  | UsuarioPage.js              | -             | -             | ℹ️ Sin HTTP |
+| 12  | OrganizadorPage.js          | -             | -             | ℹ️ Sin HTTP |
 
 ### Componentes (src/components/)
 
-| # | Archivo | Llamadas HTTP | config.apiUrl | Estado |
-|---|---------|---------------|---------------|--------|
-| 1 | CategoriaSelect.js | ✅ | ✅ | ✅ CORRECTO |
-| 2 | MapaEvento.js | ⚠️ | - | ℹ️ API externa (OSM) |
-| 3 | Navbar.js | - | - | ℹ️ Sin HTTP |
-| 4 | NavbarLogin.js | - | - | ℹ️ Sin HTTP |
+| #   | Archivo            | Llamadas HTTP | config.apiUrl | Estado               |
+| --- | ------------------ | ------------- | ------------- | -------------------- |
+| 1   | CategoriaSelect.js | ✅            | ✅            | ✅ CORRECTO          |
+| 2   | MapaEvento.js      | ⚠️            | -             | ℹ️ API externa (OSM) |
+| 3   | Navbar.js          | -             | -             | ℹ️ Sin HTTP          |
+| 4   | NavbarLogin.js     | -             | -             | ℹ️ Sin HTTP          |
 
 ---
 
@@ -92,12 +92,15 @@ Todos los archivos siguen este patrón:
 ```javascript
 // ✅ CORRECTO - Así están TODOS los archivos
 
-import config from '../config';
+import config from '../config'
 
 // En las llamadas HTTP:
-const response = await axios.get(`${config.apiUrl}/api/eventos`);
-const login = await axios.post(`${config.apiUrl}/api/usuarios/login`, data);
-const updated = await axios.put(`${config.apiUrl}/api/organizadores/update/${id}`, data);
+const response = await axios.get(`${config.apiUrl}/api/eventos`)
+const login = await axios.post(`${config.apiUrl}/api/usuarios/login`, data)
+const updated = await axios.put(
+  `${config.apiUrl}/api/organizadores/update/${id}`,
+  data
+)
 ```
 
 ---
@@ -105,6 +108,7 @@ const updated = await axios.put(`${config.apiUrl}/api/organizadores/update/${id}
 ## 🛠️ CORRECCIONES APLICADAS
 
 ### 1. LoginUnificado.js
+
 - ❌ **Problema:** Código JavaScript suelto en JSX (línea 105)
 - ✅ **Solución:** Eliminada línea incorrecta
 - ✅ **Estado:** Corregido y commiteado
@@ -114,6 +118,7 @@ const updated = await axios.put(`${config.apiUrl}/api/organizadores/update/${id}
 ## 🎯 CÓMO FUNCIONA AHORA
 
 ### Desarrollo Local
+
 ```bash
 # Archivo: .env
 REACT_APP_API_URL=http://localhost:4000
@@ -124,6 +129,7 @@ API URL = 'http://localhost:4000'
 ```
 
 ### Producción (Vercel)
+
 ```bash
 # Variable en Vercel Dashboard:
 REACT_APP_API_URL=https://dsw-tp-be-production.up.railway.app
@@ -134,6 +140,7 @@ API URL = 'https://dsw-tp-be-production.up.railway.app'
 ```
 
 ### Orden de Prioridad (config.js)
+
 ```javascript
 1. process.env.REACT_APP_API_URL  (si existe)
    ↓
@@ -165,6 +172,7 @@ API URL = 'https://dsw-tp-be-production.up.railway.app'
 ### Para Deployment en Vercel:
 
 1. **Agregar variable de entorno:**
+
    ```
    REACT_APP_API_URL = https://dsw-tp-be-production.up.railway.app
    ```
@@ -191,4 +199,3 @@ API URL = 'https://dsw-tp-be-production.up.railway.app'
 **Verificado:** ✅ 17 archivos
 **Estado:** ✅ APROBADO - 100% CORRECTO
 **Listo para:** 🚀 PRODUCCIÓN
-
