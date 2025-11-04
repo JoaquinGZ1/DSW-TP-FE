@@ -200,6 +200,12 @@ const EventosPage = () => {
   const obtenerInfoEvento = (evento) => {
     const estadoEvento = obtenerEstadoEvento(evento.date);
     
+    // Si la foto ya es una URL completa (Cloudinary), usarla directamente
+    // Si es una ruta local, concatenar con apiUrl
+    const fotoUrl = evento.photo 
+      ? (evento.photo.startsWith('http') ? evento.photo : `${config.apiUrl}/${evento.photo}`)
+      : null;
+    
     return {
       nombre: evento.name || 'Evento sin nombre',
       descripcion: evento.description || 'Sin descripción disponible',
@@ -208,7 +214,7 @@ const EventosPage = () => {
       organizador: evento.organizador?.nickname || 'No disponible',
       ubicacion: evento.ubicacion || 'Sin ubicación',
       fecha: evento.date || null,
-      foto: evento.photo ? `${config.apiUrl}/${evento.photo}` : null,
+      foto: fotoUrl,
       estado: estadoEvento
     };
   };
