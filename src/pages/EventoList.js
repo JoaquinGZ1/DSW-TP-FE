@@ -200,17 +200,30 @@ const EventosPage = () => {
   const obtenerInfoEvento = (evento) => {
     const estadoEvento = obtenerEstadoEvento(evento.date);
     
-    // Si la foto ya es una URL completa (Cloudinary), usarla directamente
-    // Si es una ruta local, concatenar con apiUrl
-    const fotoUrl = evento.photo 
-      ? (evento.photo.startsWith('http') ? evento.photo : `${config.apiUrl}/${evento.photo}`)
-      : null;
+    // Función para obtener la URL correcta de la foto
+    const obtenerFotoUrl = (photo) => {
+      if (!photo) return null;
+      
+      // Si la foto ya es una URL completa (empieza con http:// o https://)
+      if (photo.startsWith('http://') || photo.startsWith('https://')) {
+        console.log('✅ URL completa detectada:', photo);
+        return photo;
+      }
+      
+      // Si no, es una ruta local y necesita el apiUrl
+      const urlLocal = `${config.apiUrl}/${photo}`;
+      console.log('📁 URL local construida:', urlLocal);
+      return urlLocal;
+    };
     
-    // Debug: mostrar la URL de la foto
+    const fotoUrl = obtenerFotoUrl(evento.photo);
+    
+    // Debug: mostrar información de la foto
     if (evento.photo) {
-      console.log('🖼️ Foto del evento:', evento.name);
-      console.log('   Ruta original:', evento.photo);
-      console.log('   URL final:', fotoUrl);
+      console.log('🖼️ Procesando foto del evento:', evento.name);
+      console.log('   📝 Ruta original:', evento.photo);
+      console.log('   🌐 URL final:', fotoUrl);
+      console.log('   🔍 ¿Es URL completa?', evento.photo.startsWith('http'));
     }
     
     return {
@@ -295,6 +308,14 @@ const EventosPage = () => {
                       <img
                         src={infoEvento.foto}
                         alt={infoEvento.nombre}
+                        onError={(e) => {
+                          console.error('❌ Error cargando imagen:', infoEvento.foto);
+                          e.target.style.display = 'none';
+                          e.target.parentElement.innerHTML = '<div class="evento-placeholder">🎭 Error al cargar imagen</div>';
+                        }}
+                        onLoad={() => {
+                          console.log('✅ Imagen cargada correctamente:', infoEvento.foto);
+                        }}
                       />
                     ) : (
                       <div className="evento-placeholder">
