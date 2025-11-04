@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './UsuarioPage.css';
-import config from '../config';
 
 function UsuarioPage() {
   const [user, setUser] = useState(null);

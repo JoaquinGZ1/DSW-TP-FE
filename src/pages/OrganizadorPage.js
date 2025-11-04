@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './OrganizadorPage.css';
-import config from '../config';
 
 function OrganizadorPage() {
   const [organizador, setOrganizador] = useState(null);
