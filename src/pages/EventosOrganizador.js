@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import MapaEvento from '../components/MapaEvento';
+import { getImageUrl } from '../utils/imageUtils';
 import './EventosOrganizador.css';
 import config from '../config';
 
@@ -193,17 +194,19 @@ function EventosOrganizador() {
                   <div className="evento-image-area">
                     {evento.photo ? (
                       <img 
-                        src={`${config.apiUrl}/${evento.photo}`} 
+                        src={getImageUrl(evento.photo)} 
                         alt={evento.name || 'Evento'}
                         className="evento-image"
                         onLoad={() => {
-                          console.log('Imagen cargada correctamente:', evento.photo);
+                          console.log('✅ Imagen cargada:', evento.photo);
                         }}
                         onError={(e) => {
-                          console.log('Error cargando imagen:', evento.photo);
-                          console.log('URL completa:', `${config.apiUrl}/${evento.photo}`);
+                          console.error('❌ Error cargando imagen:', evento.photo);
+                          console.log('   URL generada:', getImageUrl(evento.photo));
                           e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'flex';
+                          if (e.target.nextSibling) {
+                            e.target.nextSibling.style.display = 'flex';
+                          }
                         }}
                       />
                     ) : null}
