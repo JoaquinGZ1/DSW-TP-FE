@@ -1,7 +1,0 @@
-{
-  "build": {
-    "env": {
-      "REACT_APP_API_URL": "https://dsw-tp-be-production.up.railway.app"
-    }
-  }
-}
