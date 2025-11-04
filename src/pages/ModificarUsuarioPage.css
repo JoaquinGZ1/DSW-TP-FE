@@ -1,0 +1,197 @@
+/* Estilos para la página de modificar usuario */
+.modificar-usuario-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.modificar-usuario-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.modificar-usuario-form-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  padding: 40px;
+  width: 100%;
+  max-width: 600px;
+  animation: slideInUsuario 0.6s ease-out;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@keyframes slideInUsuario {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modificar-usuario-page h2 {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #2d3748;
+  margin-bottom: 30px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.modificar-usuario-page form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modificar-usuario-page form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modificar-usuario-page label {
+  font-weight: 600;
+  color: #4a5568;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modificar-usuario-page input,
+.modificar-usuario-page textarea {
+  padding: 14px 16px;
+  border: 2px solid rgba(118, 75, 162, 0.2);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.modificar-usuario-page input:focus,
+.modificar-usuario-page textarea:focus {
+  border-color: #764ba2;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
+  transform: translateY(-1px);
+}
+
+.modificar-usuario-page textarea {
+  min-height: 100px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.modificar-usuario-page button[type="submit"] {
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 5px 15px rgba(118, 75, 162, 0.3);
+}
+
+.modificar-usuario-page button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(118, 75, 162, 0.4);
+}
+
+.modificar-usuario-page button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(118, 75, 162, 0.2);
+  border-top-color: #764ba2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  margin-top: 20px;
+  color: #4a5568;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .modificar-usuario-page {
+    padding: 15px;
+  }
+  
+  .modificar-usuario-form-container {
+    padding: 30px 25px;
+    max-width: 100%;
+  }
+  
+  .modificar-usuario-page h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modificar-usuario-form-container {
+    padding: 25px 20px;
+  }
+  
+  .modificar-usuario-page h2 {
+    font-size: 1.6rem;
+  }
+  
+  .modificar-usuario-page input,
+  .modificar-usuario-page textarea {
+    padding: 12px 14px;
+  }
+  
+  .modificar-usuario-page button[type="submit"] {
+    padding: 14px 20px;
+    font-size: 1rem;
+  }
+}

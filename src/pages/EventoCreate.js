@@ -58,8 +58,7 @@ const EventoCreate = () => {
 
       // Si el evento fue creado con éxito, muestra el mensaje y limpia el formulario
       console.log('Evento creado:', response.data);
-      console.error('Error al crear el evento');
-
+      alert('✅ Evento creado exitosamente');
 
       // Limpiar el formulario después de la creación
       setName('');
@@ -69,11 +68,37 @@ const EventoCreate = () => {
       setDate('');
       setCategoria('');
       setUbicacion('');
+      
+      // Navegar solo si fue exitoso
+      navigate('/EventosOrganizador');
+      
     } catch (error) {
       console.error('Error creando el evento:', error);
+      
+      // Verificar si es un error de contenido inapropiado (status 400)
+      if (error.response && error.response.status === 400) {
+        const errorData = error.response.data;
+        
+        // Construir un mensaje detallado
+        let errorMessage = '🚫 No se puede crear el evento\n\n';
+        
+        if (errorData.reason) {
+          errorMessage += `${errorData.reason}\n\n`;
+        }
+        
+        if (errorData.details) {
+          errorMessage += `Detalles: ${errorData.details}`;
+        } else if (errorData.message) {
+          errorMessage += errorData.message;
+        }
+        
+        alert(errorMessage);
+        return; // No navegar si hay error de contenido
+      }
+      
+      // Otros errores
       alert(`Error creando evento: ${error.message}`);
     }
-    navigate('/EventosOrganizador')
   };
 
   return (

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Asegúrate de importar axios
+import axios from 'axios';
+import './ModificarUsuarioPage.css';
 
 function ModificarUsuarioPage() {
   const [user, setUser] = useState(null);
@@ -8,6 +9,8 @@ function ModificarUsuarioPage() {
   const [mail, setMail] = useState('');
   const [DNI, setDNI] = useState('');
   const [description, setDescription] = useState('');
+  const [confirmacion, setConfirmacion] = useState('');
+  const [mostrarEliminar, setMostrarEliminar] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,15 +65,61 @@ function ModificarUsuarioPage() {
     }
   };
 
+  const handleEliminarCuenta = async () => {
+    if (confirmacion !== 'ELIMINAR') {
+      alert('Debes escribir "ELIMINAR" para confirmar la eliminación de tu cuenta');
+      return;
+    }
+
+    if (!window.confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.')) {
+      return;
+    }
+
+    try {
+      await axios.post(
+        `http://localhost:4000/api/usuarios/${user.id}/delete-account`,
+        { confirmacion },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('Token')}`,
+          },
+        }
+      );
+
+      alert('Tu cuenta ha sido eliminada correctamente');
+      
+      // Cerrar sesión
+      localStorage.removeItem('user');
+      localStorage.removeItem('Token');
+      localStorage.removeItem('role');
+      
+      // Redirigir al login
+      navigate('/login');
+    } catch (error) {
+      console.error('Error al eliminar la cuenta:', error);
+      alert(error.response?.data?.message || 'Hubo un error al eliminar la cuenta');
+    }
+  };
+
   if (!user) {
-    return <div>Cargando...</div>;
+    return (
+      <div className="modificar-usuario-page">
+        <div className="modificar-usuario-form-container">
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <p className="loading-text">Cargando...</p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="modificar-usuario-page">
-      <h2>Modificar Información de Usuario</h2>
+      <div className="modificar-usuario-form-container">
+        <h2>Modificar Información de Usuario</h2>
 
-      <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
         <div>
           <label>Nickname</label>
           <input
@@ -108,6 +157,79 @@ function ModificarUsuarioPage() {
 
         <button type="submit">Guardar cambios</button>
       </form>
+
+      <div className="zona-peligro" style={{ marginTop: '40px', padding: '20px', border: '2px solid #dc3545', borderRadius: '8px' }}>
+        <h3 style={{ color: '#dc3545' }}>Zona de Peligro</h3>
+        <p>Una vez que elimines tu cuenta, no hay vuelta atrás. Por favor, está seguro.</p>
+        
+        {!mostrarEliminar ? (
+          <button 
+            type="button"
+            onClick={() => setMostrarEliminar(true)}
+            style={{ 
+              backgroundColor: '#dc3545', 
+              color: 'white', 
+              padding: '10px 20px', 
+              border: 'none', 
+              borderRadius: '5px', 
+              cursor: 'pointer' 
+            }}
+          >
+            ELIMINAR CUENTA
+          </button>
+        ) : (
+          <div style={{ marginTop: '15px' }}>
+            <p style={{ fontWeight: 'bold' }}>
+              Para confirmar, escribe <strong>ELIMINAR</strong> en el campo de abajo:
+            </p>
+            <input
+              type="text"
+              value={confirmacion}
+              onChange={(e) => setConfirmacion(e.target.value)}
+              placeholder="Escribe ELIMINAR"
+              style={{ 
+                padding: '8px', 
+                marginRight: '10px', 
+                border: '1px solid #dc3545',
+                borderRadius: '4px'
+              }}
+            />
+            <button 
+              type="button"
+              onClick={handleEliminarCuenta}
+              style={{ 
+                backgroundColor: '#dc3545', 
+                color: 'white', 
+                padding: '10px 20px', 
+                border: 'none', 
+                borderRadius: '5px', 
+                cursor: 'pointer',
+                marginRight: '10px'
+              }}
+            >
+              Confirmar eliminación
+            </button>
+            <button 
+              type="button"
+              onClick={() => {
+                setMostrarEliminar(false);
+                setConfirmacion('');
+              }}
+              style={{ 
+                backgroundColor: '#6c757d', 
+                color: 'white', 
+                padding: '10px 20px', 
+                border: 'none', 
+                borderRadius: '5px', 
+                cursor: 'pointer' 
+              }}
+            >
+              Cancelar
+            </button>
+          </div>
+        )}
+      </div>
+      </div>
     </div>
   );
 }
