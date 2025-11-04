@@ -102,7 +102,6 @@ function LoginUnificado({ setIsAuthenticated }) {
 
         {/* Formulario de login */}
         <form onSubmit={handleSubmit} className="login-form">
-          console.log("API_URL en producción:", API_URL);
           <div className="form-group">
             <label className="form-label">
               <span className="label-icon">📧</span>
