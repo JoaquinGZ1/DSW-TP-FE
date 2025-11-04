@@ -206,6 +206,13 @@ const EventosPage = () => {
       ? (evento.photo.startsWith('http') ? evento.photo : `${config.apiUrl}/${evento.photo}`)
       : null;
     
+    // Debug: mostrar la URL de la foto
+    if (evento.photo) {
+      console.log('🖼️ Foto del evento:', evento.name);
+      console.log('   Ruta original:', evento.photo);
+      console.log('   URL final:', fotoUrl);
+    }
+    
     return {
       nombre: evento.name || 'Evento sin nombre',
       descripcion: evento.description || 'Sin descripción disponible',
