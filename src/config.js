@@ -1,10 +1,13 @@
 // src/config.js - Configuración centralizada de la API
 
-// Detectar automáticamente: producción usa Railway, desarrollo usa localhost
-const API_URL = process.env.REACT_APP_API_URL || 
-  (process.env.NODE_ENV === 'production' 
-    ? 'https://dsw-tp-be-production.up.railway.app' 
-    : 'http://localhost:4000');
+// Usar Railway en producción, localhost en desarrollo
+// En producción (Vercel), process.env.NODE_ENV siempre es 'production'
+const isLocalhost = typeof window !== 'undefined' && 
+  (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
+const API_URL = isLocalhost 
+  ? 'http://localhost:4000'
+  : 'https://dsw-tp-be-production.up.railway.app';
 
 export const config = {
   apiUrl: API_URL,
